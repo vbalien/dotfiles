@@ -74,6 +74,7 @@ const linuxGraphical = {
     ".xinitrc": "linux/xinitrc",
     ".gtkrc-2.0": "linux/gtkrc-2.0",
     ".fehbg": "linux/fehbg",
+    ".local/share/fonts": "linux/fonts",
     ".config/alacritty": "common/alacritty",
     ".config/autostart": "linux/autostart",
     ".config/dunst": "linux/dunst",
@@ -87,6 +88,10 @@ const linuxGraphical = {
     ".config/libinput-gestures.conf": "linux/libinput-gestures.conf",
     ".config/polybar": "linux/polybar",
   },
+
+  scripts: [
+    "betterlockscreen -u $HOME/.config/wallpaper",
+  ],
 };
 
 const linuxGraphicalHDPI = {

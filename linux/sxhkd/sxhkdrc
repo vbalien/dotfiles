@@ -8,7 +8,10 @@ super + Return
 
 # program launcher
 super + @space
-	rofi -show drun
+	$HOME/.config/rofi/launchers/ribbon/launcher.sh
+
+super + l
+	$HOME/.config/rofi/powermenu/powermenu.sh
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -136,10 +139,10 @@ XF86AudioRaiseVolume
  pactl set-sink-volume @DEFAULT_SINK@ +5%
 
 XF86MonBrightnessUp
- xbacklight -ctrl $BACKLIGHT -inc 5
+ xbacklight -ctrl gmux_backlight -inc 5
 
 XF86MonBrightnessDown
- xbacklight -ctrl $BACKLIGHT -dec 5
+ xbacklight -ctrl gmux_backlight -dec 5
 
 XF86KbdBrightnessUp
  xbacklight -ctrl smc::kbd_backlight -inc 10

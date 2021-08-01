@@ -152,6 +152,18 @@ let g:indentLine_color_gui='gray'
 """
 " Coc
 """
+
+" auto install extensions
+let g:coc_global_extensions = [
+            \ 'coc-json',
+            \ 'coc-tsserver',
+            \ 'coc-html',
+            \ 'coc-css',
+            \ 'coc-prettier',
+            \ 'coc-deno',
+            \ 'coc-yaml'
+            \ ]
+
 " Use K to show documentation in preview window.
 nmap <leader>f  <Plug>(coc-codeaction)
 

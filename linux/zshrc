@@ -1,0 +1,25 @@
+export ZSH='/home/vbalien/.oh-my-zsh'
+
+ZSH_THEME='vbalien'
+ZSH_CUSTOM=$HOME/.config/ohmyzsh
+
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+###
+# User configuration
+###
+
+# Environment variables
+export PATH="$HOME/.deno/bin:$PATH"
+
+
+# Preferred editor for local and remote sessions
+export EDITOR='vim'
+
+# aliases
+alias vim='nvim'
+alias sudo='sudo '
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

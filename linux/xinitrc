@@ -1,0 +1,20 @@
+#!/bin/sh
+
+pcmanfm -d &
+dunst &
+picom &
+dex -a
+$HOME/.fehbg
+xsetroot -cursor_name left_ptr
+picom --experimental-backends &
+sxhkd &
+libinput-gestures-setup restart
+
+# subscribers
+$HOME/.config/bspwm/layout_monitor.sh &
+$HOME/.config/bspwm/udev_monitor.sh &
+
+# load xmodmap
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+
+exec bspwm

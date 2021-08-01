@@ -1,0 +1,25 @@
+#! /bin/sh
+
+bspc monitor -d      
+
+bspc config border_width         3
+bspc config window_gap           12
+
+bspc config split_ratio           0.52
+bspc config borderless_monocle    true
+bspc config gapless_monocle       true
+bspc config single_monocle        true
+bspc config focus_follows_pointer true
+bspc config focused_border_color  '#8E83B8'
+bspc config normal_border_color   '#51425C'
+
+bspc rule -a "*:transgui"                      state=floating     follow=on
+bspc rule -a Code                 desktop='^4'                    follow=on
+bspc rule -a Microsoft-edge-beta  desktop='^3'                    follow=on
+bspc rule -a TelegramDesktop                   state=floating     sticky=on
+bspc rule -a baka-mplayer                      state=floating     sticky=on
+bspc rule -a smplayer                          state=floating     sticky=on
+bspc config external_rules_command $HOME/.config/bspwm/external-rules.sh
+
+polybar -r mybar &
+

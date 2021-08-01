@@ -1,0 +1,21 @@
+import:
+  - ~/.config/alacritty/dracula.yml
+
+window:
+  dimensions:
+    columns: 80
+    lines: 25
+
+  decorations: none
+font:
+  normal:
+    family: TerminessTTF Nerd Font
+
+  size: 16.0
+background_opacity: 0.9
+
+key_bindings:
+  - { key: Period, mods: Command, chars: "\\f" }
+  - { key: Period, mods: Control, chars: "\\f" }
+  - { key: P, mods: Command, chars: "\\p" }
+  - { key: P, mods: Control, chars: "\\p" }

@@ -33,7 +33,7 @@ const win = {
   ],
 };
 
-const linux = {
+const linuxBase = {
   name: "linux",
 
   extend: common.name,
@@ -43,29 +43,57 @@ const linux = {
   },
 
   link: {
-    ".nvim": "common/nvim",
-    ".gitconfig": "common/gitconfig",
+    ".config/nvim": "common/nvim",
+    ".zshrc": "linux/zshrc",
+    ".pam_environment": "linux/pam_environment",
+    ".local/bin/ufetch": "linux/local/bin/ufetch",
+    ".config/ohmyzsh": "linux/ohmyzsh",
+    ".config/tmux/tmux.conf": "common/tmux.conf",
+  },
+};
+
+const linuxConsole = {
+  name: "linux-console",
+  extend: linuxBase.name,
+  guard: {
+    hostname: "home",
+  },
+};
+
+const linuxGraphical = {
+  name: "linux-graphical",
+
+  extend: linuxBase.name,
+
+  guard: {
+    hostname: ["DeskMini", "T490s"],
+  },
+
+  link: {
+    ".Xmodmap": "linux/Xmodmap",
+    ".xinitrc": "linux/xinitrc",
+    ".gtkrc-2.0": "linux/gtkrc-2.0",
+    ".fehbg": "linux/fehbg",
+    ".config/bakamplayer.ini": "linux/bakamplayer.ini",
+    ".config/alacritty": "common/alacritty",
+    ".config/autostart": "linux/autostart",
+    ".config/dunst": "linux/dunst",
+    ".config/bspwm": "linux/bspwm",
+    ".config/sxhkd": "linux/sxhkd",
+    ".config/gtk-3.0": "linux/gtk-3.0",
+    ".config/mpv": "linux/mpv",
+    ".config/picom": "linux/picom",
+    ".config/rofi": "linux/rofi",
+    ".config/wallpaper": "common/wallpaper",
+    ".config/libinput-gestures.conf": "linux/libinput-gestures.conf",
+    ".config/polybar": "linux/polybar",
   },
 };
 
 export default <MappingConfig[]> [
   common,
   win,
-  linux,
-
-  {
-    name: "home-win",
-    extend: win.name,
-    guard: {
-      hostname: "DeskMini",
-    },
-  },
-
-  {
-    name: "home-linux",
-    extend: linux.name,
-    guard: {
-      hostname: "DeskMini",
-    },
-  },
+  linuxBase,
+  linuxGraphical,
+  linuxConsole,
 ];

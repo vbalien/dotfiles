@@ -89,10 +89,27 @@ const linuxGraphical = {
   },
 };
 
+const linuxGraphicalHDPI = {
+  name: "linux-graphical-hdpi",
+
+  extend: linuxGraphical.name,
+
+  guard: {
+    hostname: ["MBP"],
+  },
+
+  link: {
+    ".Xresources": "linux-hdpi/Xresources",
+    ".xprofile": "linux-hdpi/xprofile",
+    ".pam_environment": "linux-hdpi/pam_environment",
+  },
+};
+
 export default <MappingConfig[]> [
   common,
   win,
   linuxBase,
-  linuxGraphical,
   linuxConsole,
+  linuxGraphical,
+  linuxGraphicalHDPI,
 ];

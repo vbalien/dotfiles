@@ -31,9 +31,9 @@ alert = #bd2c40
 
 [bar/mybar]
 ;monitor = ${env:MONITOR:HDMI-1}
-dpi = ${env:DPI:96}
+dpi = ${xrdb:Xft.dpi:-1}
 width = 100%
-height = ${env:POLYBAR_HEIGHT}
+height = 52
 offset-x = 0%
 offset-y = 0%
 radius = 0.0
@@ -56,17 +56,16 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = TerminessTTF Nerd Font:size=10;1
-font-1 = NanumBarunGothic:size=8;1
+font-0 = TerminessTTF Nerd Font:size=12;1
+font-1 = NanumBarunGothic:size=10;1
 
 modules-left = logo bspwm
 modules-center = xwindow
 modules-right = mpd pulseaudio eth wlan battery date
 
 tray-position = right
-tray-padding = 2
 tray-scale = 1.0
-tray-maxsize = ${env:POLYBAR_ICON_HEIGHT}
+tray-maxsize = 32
 
 cursor-click = pointer
 cursor-scroll = ns-resize

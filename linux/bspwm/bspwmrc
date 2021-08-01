@@ -2,8 +2,8 @@
 
 bspc monitor -d      
 
-bspc config border_width         3
-bspc config window_gap           12
+bspc config border_width         $(echo 3 \* $GDK_SCALE | bc)
+bspc config window_gap           $(echo 12 \* $GDK_SCALE | bc)
 
 bspc config split_ratio           0.52
 bspc config borderless_monocle    true
@@ -21,7 +21,5 @@ bspc rule -a baka-mplayer                      state=floating     sticky=on
 bspc rule -a smplayer                          state=floating     sticky=on
 bspc config external_rules_command $HOME/.config/bspwm/external-rules.sh
 
-
-polybar -r mybar &
 dex -a
 

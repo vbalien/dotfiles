@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# load xprofile
+[[ -f /etc/xprofile ]] && . /etc/xprofile
+[[ -f ~/.xprofile ]] && . ~/.xprofile
+
+# load xmodmap
+[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
+
+# load xresources
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
+
 pcmanfm -d &
 dunst &
 picom &
@@ -8,12 +18,10 @@ xsetroot -cursor_name left_ptr
 picom --experimental-backends &
 sxhkd &
 libinput-gestures-setup restart
+polybar -r mybar &
 
 # subscribers
 $HOME/.config/bspwm/layout_monitor.sh &
 $HOME/.config/bspwm/udev_monitor.sh &
-
-# load xmodmap
-[[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 
 exec bspwm

@@ -1,0 +1,10 @@
+[user]
+	signingkey = FD987F8DBE513071
+	email = webmaster@alien.moe
+	name = Jisu Kim
+[commit]
+	gpgsign = true
+[core]
+	editor = vim
+[credential "helperselector"]
+	selected = manager-core

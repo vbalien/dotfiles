@@ -1,6 +1,6 @@
 GTK_IM_MODULE=fcitx
 QT_IM_MODULE=fcitx
-XMODIFIERS=\@im=fcitx
+XMODIFIERS=@im=fcitx
 
 GTK_THEME     DEFAULT=Dracula
 GTK2_RC_FILES DEFAULT=/usr/share/themes/Dracula/gtk-2.0/gtkrc

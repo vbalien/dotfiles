@@ -3,7 +3,6 @@
 pcmanfm -d &
 dunst &
 picom &
-dex -a
 $HOME/.fehbg
 xsetroot -cursor_name left_ptr
 picom --experimental-backends &

@@ -21,5 +21,7 @@ bspc rule -a baka-mplayer                      state=floating     sticky=on
 bspc rule -a smplayer                          state=floating     sticky=on
 bspc config external_rules_command $HOME/.config/bspwm/external-rules.sh
 
+
 polybar -r mybar &
+dex -a
 

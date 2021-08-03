@@ -161,7 +161,8 @@ let g:coc_global_extensions = [
             \ 'coc-css',
             \ 'coc-prettier',
             \ 'coc-deno',
-            \ 'coc-yaml'
+            \ 'coc-yaml',
+            \ 'coc-markdownlint'
             \ ]
 
 " Use K to show documentation in preview window.

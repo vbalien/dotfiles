@@ -85,7 +85,7 @@ if !has('nvim')
   end
 end
 
-lang ko_KR.UTF-8
+lang en_US.UTF-8
 set encoding=UTF-8
 
 " theme config

@@ -14,6 +14,7 @@ const win = {
 
   guard: {
     platform: "windows",
+    hostname: ["DeskMini", "office"]
   },
 
   link: {
@@ -26,6 +27,8 @@ const win = {
 
     "Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1":
       "win\\powershell\\Microsoft.PowerShell_profile.ps1",
+
+    ".vbalien.omp.json": "win\\vbalien.omp.json",
   },
 
   scripts: [

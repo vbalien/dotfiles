@@ -85,7 +85,7 @@ if !has('nvim')
   end
 end
 
-lang ko_KR.UTF-8
+lang en_US.UTF-8
 set encoding=UTF-8
 
 " theme config
@@ -161,7 +161,8 @@ let g:coc_global_extensions = [
             \ 'coc-css',
             \ 'coc-prettier',
             \ 'coc-deno',
-            \ 'coc-yaml'
+            \ 'coc-yaml',
+            \ 'coc-markdownlint'
             \ ]
 
 " Use K to show documentation in preview window.

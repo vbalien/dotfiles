@@ -32,7 +32,9 @@ function get-uptime {
 
 function get-packages {
   # If choco exists, get the number of packages
-  if (Get-Command choco -ErrorAction SilentlyContinue) {
+  if (Get-Command scoop -ErrorAction SilentlyContinue) {
+    return "$(((scoop list 6>&1) -match "  ").Count) (scoop)"
+  }elseif (Get-Command choco -ErrorAction SilentlyContinue) {
     return "$($(choco list --local-only -r).Count) (choco)";
   } elseif (Get-Command winget -ErrorAction SilentlyContinue) {
     return "$($(winget list).Count - 3) (winget)";

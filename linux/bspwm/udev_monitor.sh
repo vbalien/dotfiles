@@ -9,7 +9,7 @@ function set-props {
   xinput set-prop 'Apple Inc. Magic Trackpad 2' 'libinput Accel Speed' 0.5
   # Macbook Pro Trackpad
   xinput set-prop "bcm5974" "libinput Natural Scrolling Enabled" 1
-  xinput set-prop "bcm5974" "libinput Accel Speed" 0.5
+  xinput set-prop "bcm5974" "libinput Accel Speed" 0.4
   # Logitech G402
   xinput set-prop 'Logitech Gaming Mouse G402' 'libinput Accel Speed' -0.8
   # Logitech G102

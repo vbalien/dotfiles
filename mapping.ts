@@ -90,6 +90,7 @@ const linuxGraphical = {
     ".config/wallpaper": "common/wallpaper",
     ".config/libinput-gestures.conf": "linux/libinput-gestures.conf",
     ".config/polybar": "linux/polybar",
+    ".config/Trolltech.conf": "linux/Trolltech.conf",
   },
 
   scripts: [

@@ -15,6 +15,8 @@ function set-props {
   # Logitech G102
   xinput set-prop 'Logitech G102 LIGHTSYNC Gaming Mouse' 'libinput Natural Scrolling Enabled' 1
   xinput set-prop 'Logitech G102 LIGHTSYNC Gaming Mouse' 'libinput Accel Speed' -0.5
+  # TrackPoint Keyboard 2
+  xinput set-button-map "Lenovo TrackPoint Keyboard II Mouse" 1 0 3
 }
 
 set-props

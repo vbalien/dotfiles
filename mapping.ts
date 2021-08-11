@@ -14,7 +14,7 @@ const win = {
 
   guard: {
     platform: "windows",
-    hostname: ["DeskMini", "office"]
+    hostname: ["DeskMini", "office"],
   },
 
   link: {
@@ -75,6 +75,7 @@ const linuxGraphical = {
   link: {
     ".Xmodmap": "linux/Xmodmap",
     ".xinitrc": "linux/xinitrc",
+    ".Xresources": "linux/Xresources",
     ".gtkrc-2.0": "linux/gtkrc-2.0",
     ".fehbg": "linux/fehbg",
     ".local/share/fonts": "linux/fonts",

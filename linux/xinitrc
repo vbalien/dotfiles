@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export DESKTOP_SESSION="bspwm"
+
 # load xprofile
 [[ -f /etc/xprofile ]] && . /etc/xprofile
 [[ -f ~/.xprofile ]] && . ~/.xprofile
@@ -10,13 +12,11 @@
 # load xresources
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
-pcmanfm -d &
 dunst &
 picom &
 $HOME/.fehbg
 xsetroot -cursor_name left_ptr
 picom --experimental-backends &
-sxhkd &
 libinput-gestures-setup restart
 polybar -r mybar &
 

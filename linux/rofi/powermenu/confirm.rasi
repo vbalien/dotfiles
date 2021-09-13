@@ -9,9 +9,9 @@
 }
 
 window {
-    width:      			14.063em;
-    padding:    			1.563em;
-    border:					0.063em;
+    width:      			225px;
+    padding:    			25px;
+    border:					1px;
     border-radius:          0px;
     border-color:           @border;
     location:               center;

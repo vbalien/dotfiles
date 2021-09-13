@@ -9,7 +9,7 @@
 }
 
 window {
-    width:      			20em;
+    width:      			360px;
     padding:    			25px;
     border:					1px;
     border-radius:          0px;

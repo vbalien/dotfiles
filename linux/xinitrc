@@ -1,5 +1,10 @@
 #!/bin/sh
 
+eval $(gnome-keyring-daemon --start --components=pkcs11)
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+export SSH_AUTH_SOCK
+
 export DESKTOP_SESSION="bspwm"
 
 # load xprofile

@@ -17,5 +17,3 @@ background_opacity: 0.9
 key_bindings:
   - { key: Period, mods: Command, chars: "\\f" }
   - { key: Period, mods: Control, chars: "\\f" }
-  - { key: P, mods: Command, chars: "\\p" }
-  - { key: P, mods: Control, chars: "\\p" }

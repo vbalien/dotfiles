@@ -37,7 +37,9 @@ return require('packer').startup(function(use)
         'coc-prettier',
         'coc-deno',
         'coc-yaml',
-        'coc-markdownlint'
+        'coc-markdownlint',
+        'coc-styled-components',
+        'coc-sumneko-lua'
       }
       vim.cmd('command! -nargs=0 Prettier :CocCommand prettier.formatFile')
     end
@@ -94,7 +96,11 @@ return require('packer').startup(function(use)
               { key = "<Tab>", cb = ':NvimTreeToggle<cr>' },
             }
           }
-        }
+        },
+        git = {
+          enable = true,
+          ignore = false,
+        },
       }
       vim.g.nvim_tree_quit_on_open = 1
     end,
@@ -108,6 +114,7 @@ return require('packer').startup(function(use)
       local actions = require("telescope.actions")
       require('telescope').setup{
         defaults = {
+          file_ignore_patterns = {"node_modules"},
           mappings = {
             i = {
               ["<esc>"] = actions.close,
@@ -174,6 +181,7 @@ return require('packer').startup(function(use)
   use 'airblade/vim-gitgutter'
   use 'sheerun/vim-polyglot'
   use 'pantharshit00/vim-prisma'
+  use 'styled-components/vim-styled-components'
 
   if packer_bootstrap then
     require('packer').sync()

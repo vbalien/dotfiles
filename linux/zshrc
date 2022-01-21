@@ -29,4 +29,8 @@ alias sudo='sudo '
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-ufetch
+if command -v ufetch &> /dev/null;then
+  ufetch
+elif command -v neofetch &> /dev/null;then
+  neofetch
+fi

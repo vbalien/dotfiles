@@ -5,7 +5,7 @@ function set-props {
   xinput set-prop 'Elan Touchpad' 'libinput Natural Scrolling Enabled' 1
 
   # Elan TrackPoint
-  xinput set-prop       'Elan TrackPoint' 'libinput Accel Speed' -0.3
+  xinput set-prop       'Elan TrackPoint' 'libinput Accel Speed' -0.1
   xinput set-prop       'Elan TrackPoint' 'libinput Natural Scrolling Enabled' 1
   xinput set-button-map 'Elan TrackPoint' 1 0 3
 
@@ -27,6 +27,7 @@ function set-props {
   # TrackPoint Keyboard 2
   xinput set-prop       'Lenovo TrackPoint Keyboard II Mouse' 'libinput Natural Scrolling Enabled' 1
   xinput set-button-map 'Lenovo TrackPoint Keyboard II Mouse' 1 0 3
+  xinput set-prop       'Lenovo TrackPoint Keyboard II Mouse' 'libinput Accel Speed' 0.3
 }
 
 set-props

@@ -30,6 +30,7 @@ return require('packer').startup(function(use)
     config = function()
       vim.cmd("autocmd CursorHold * silent call CocActionAsync('highlight')")
       vim.g.coc_global_extensions = {
+        'coc-eslint',
         'coc-json',
         'coc-tsserver',
         'coc-html',
@@ -114,7 +115,7 @@ return require('packer').startup(function(use)
       local actions = require("telescope.actions")
       require('telescope').setup{
         defaults = {
-          file_ignore_patterns = {"node_modules"},
+          file_ignore_patterns = {"node_modules", ".yarn", ".git"},
           mappings = {
             i = {
               ["<esc>"] = actions.close,
@@ -126,9 +127,11 @@ return require('packer').startup(function(use)
         pickers = {
           find_files = {
             theme = "dropdown",
+            hidden = true,
           },
           live_grep = {
             theme = "dropdown",
+            hidden = true,
           },
           current_buffer_fuzzy_find = {
             theme = "dropdown",
@@ -182,6 +185,7 @@ return require('packer').startup(function(use)
   use 'sheerun/vim-polyglot'
   use 'pantharshit00/vim-prisma'
   use 'styled-components/vim-styled-components'
+  use 'lbrayner/vim-rzip'
 
   if packer_bootstrap then
     require('packer').sync()

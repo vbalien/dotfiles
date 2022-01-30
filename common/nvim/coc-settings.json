@@ -1,5 +1,7 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "*"
+  ],
   "javascript.suggestionActions.enabled": false,
   "sumneko-lua.enableNvimLuaDev": true
 }

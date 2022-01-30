@@ -1,6 +1,7 @@
 lua require('plugins')
 source ~/.config/nvim/keybinding.vim
 source ~/.config/nvim/yarnpnp.vim
+source ~/.config/nvim/prettier-lua.vim
 
 set smartindent
 set autoindent

@@ -227,11 +227,11 @@ return require("packer").startup(function() -- If you want devicons
     "lukas-reineke/indent-blankline.nvim",
     config = function()
       vim.cmd [[
-        highlight IndentBlanklineChar guifg=gray guibg=none gui=nocombine
+        highlight IndentBlanklineChar guifg=#44475A guibg=none gui=nocombine
         highlight IndentBlanklineSpaceChar guifg=none guibg=none gui=nocombine
         highlight IndentBlanklineSpaceCharBlankline guifg=none guibg=none gui=nocombine
-        highlight IndentBlanklineContextChar guifg=#4B5263 guibg=#4B5263 gui=nocombine
-        highlight IndentBlanklineContextStart guifg=none guibg=#4B5263 gui=nocombine
+        highlight IndentBlanklineContextChar guifg=#44475A guibg=#44475A gui=nocombine
+        highlight IndentBlanklineContextStart guifg=none guibg=#44475A gui=nocombine
       ]]
       vim.opt.list = true
 

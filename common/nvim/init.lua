@@ -23,8 +23,9 @@ set.mouse = "a"
 set.exrc = true
 set.secure = true
 set.completeopt = "menu,menuone,noselect"
+set.background = "dark"
 
-vim.g.dracula_transparent_bg = true
+vim.g.dracula_lualine_bg_color = "#44475a"
 vim.cmd [[
 syntax enable
 autocmd BufNewFile,BufRead .eslintrc,.prettierrc,.parcelrc set filetype=json

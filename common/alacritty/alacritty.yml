@@ -12,7 +12,7 @@ font:
     family: TerminessTTF Nerd Font
 
   size: 14.0
-background_opacity: 0.9
+background_opacity: 0.95
 
 key_bindings:
   - { key: Period, mods: Command, chars: "\\f" }

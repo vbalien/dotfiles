@@ -1,3 +1,4 @@
+vim.cmd [[
 " Decode URI encoded characters
 function! DecodeURI(uri)
     return substitute(a:uri, '%\([a-fA-F0-9][a-fA-F0-9]\)', '\=nr2char("0x" . submatch(1))', "g")
@@ -34,3 +35,4 @@ function! RzipOverride()
 endfunction
 
 autocmd VimEnter * call RzipOverride()
+]]

@@ -11,6 +11,10 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 ###
 
+# Bind keys
+bindkey -s "\CP" "\eOA"
+bindkey -s "\CN" "\eOB"
+
 # Environment variables
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.deno/bin:$PATH"
@@ -23,6 +27,8 @@ export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
 
+export GPG_TTY=$(tty)
+
 # aliases
 alias vim='nvim'
 alias sudo='sudo '
@@ -33,4 +39,6 @@ if command -v ufetch &> /dev/null;then
   ufetch
 elif command -v neofetch &> /dev/null;then
   neofetch
+elif command -v pfetch &> /dev/null;then
+  pfetch
 fi

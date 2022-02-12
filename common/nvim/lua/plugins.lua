@@ -129,13 +129,8 @@ return require("packer").startup(function() -- If you want devicons
   use {
     "windwp/nvim-autopairs",
     config = function()
-      require("nvim-autopairs").setup {}
-      local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-      local cmp = require "cmp"
-      cmp.event:on(
-        "confirm_done",
-        cmp_autopairs.on_confirm_done { map_char = { tex = "" } }
-      )
+      local npairs = require "nvim-autopairs"
+      npairs.setup {}
     end,
   }
 
@@ -226,13 +221,6 @@ return require("packer").startup(function() -- If you want devicons
   use {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
-      vim.cmd [[
-        highlight IndentBlanklineChar guifg=#44475A guibg=none gui=nocombine
-        highlight IndentBlanklineSpaceChar guifg=none guibg=none gui=nocombine
-        highlight IndentBlanklineSpaceCharBlankline guifg=none guibg=none gui=nocombine
-        highlight IndentBlanklineContextChar guifg=#44475A guibg=#44475A gui=nocombine
-        highlight IndentBlanklineContextStart guifg=none guibg=#44475A gui=nocombine
-      ]]
       vim.opt.list = true
 
       require("indent_blankline").setup {
@@ -244,9 +232,36 @@ return require("packer").startup(function() -- If you want devicons
   }
 
   use {
-    "preservim/nerdcommenter",
+    "numToStr/Comment.nvim",
+    requires = {
+      "JoosepAlviste/nvim-ts-context-commentstring",
+    },
     config = function()
-      vim.g.NERDAltDelims_java = 1
+      require("Comment").setup {
+        ignore = "^$",
+
+        pre_hook = function(ctx)
+          if vim.bo.filetype == "typescriptreact" then
+            local U = require "Comment.utils"
+            local type = ctx.ctype == U.ctype.line and "__default"
+              or "__multiline"
+            local location = nil
+
+            if ctx.ctype == U.ctype.block then
+              location =
+                require("ts_context_commentstring.utils").get_cursor_location()
+            elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+              location =
+                require("ts_context_commentstring.utils").get_visual_start_location()
+            end
+
+            return require("ts_context_commentstring.internal").calculate_commentstring {
+              key = type,
+              location = location,
+            }
+          end
+        end,
+      }
     end,
   }
 
@@ -278,7 +293,42 @@ return require("packer").startup(function() -- If you want devicons
     end,
   }
 
-  use "Mofiqul/dracula.nvim"
+  use {
+    "Mofiqul/dracula.nvim",
+    config = function()
+      local highlight = require("./util").highlight
+      local colors = require("dracula").colors()
+      highlight("CursorLineNr", colors.fg, nil, "bold", nil)
+      highlight("LineNr", colors.comment, colors.menu, nil, nil, nil)
+
+      -- GitSigns
+      highlight("SignColumn", nil, colors.menu, nil, nil, nil)
+      highlight("GitSignsAdd", colors.green, colors.menu, nil, nil, nil)
+      highlight("GitSignsDelete", colors.red, colors.menu, nil, nil, nil)
+      highlight("GitSignsChange", colors.yellow, colors.menu, nil, nil, nil)
+
+      -- IndentBlankline
+      highlight("IndentBlanklineChar", colors.selection, nil, nil, nil, nil)
+      highlight("IndentBlanklineSpaceChar", nil, nil, nil, nil, nil)
+      highlight("IndentBlanklineSpaceCharBlankline", nil, nil, nil, nil, nil)
+      highlight(
+        "IndentBlanklineContextChar",
+        colors.visual,
+        colors.visual,
+        nil,
+        nil,
+        nil
+      )
+      highlight(
+        "IndentBlanklineContextStart",
+        nil,
+        colors.visual,
+        nil,
+        nil,
+        nil
+      )
+    end,
+  }
 
   use {
     "dstein64/nvim-scrollview",
@@ -286,12 +336,37 @@ return require("packer").startup(function() -- If you want devicons
       vim.cmd "highlight ScrollView ctermbg=159 guibg=LightCyan"
     end,
   }
+
+  use {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup()
+    end,
+  }
+
+  use {
+    "sindrets/diffview.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("diffview").setup()
+    end,
+  }
+
+  use {
+    "lewis6991/gitsigns.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("gitsigns").setup()
+    end,
+  }
+
   use "wakatime/vim-wakatime"
-  use "airblade/vim-gitgutter"
   use "pantharshit00/vim-prisma"
   use "styled-components/vim-styled-components"
   use "lbrayner/vim-rzip"
-  use "ckipp01/stylua-nvim"
+  use "editorconfig/editorconfig-vim"
 
   if packer_bootstrap then
     require("packer").sync()

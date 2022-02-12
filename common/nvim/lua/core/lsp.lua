@@ -23,6 +23,7 @@ local servers = {
   "efm",
   "sumneko_lua",
   "vimls",
+  "jsonls",
 }
 
 local enhance_server_opts = {
@@ -69,7 +70,15 @@ local enhance_server_opts = {
   end,
 
   ["eslint"] = function(opts)
-    opts.settings = { packageManager = "yarn" }
+    opts.root_dir = lspconfig.util.root_pattern { ".git/" }
+    opts.settings = {
+      packageManager = "yarn",
+      workingDirectory = { mode = "location" },
+    }
+  end,
+
+  ["tsserver"] = function(opts)
+    opts.root_dir = lspconfig.util.root_pattern { ".git/" }
   end,
 
   ["sumneko_lua"] = function(opts)
@@ -95,6 +104,27 @@ local enhance_server_opts = {
       },
     }
   end,
+
+  ["jsonls"] = function(opts)
+    opts.settings = {
+      json = {
+        schemas = {
+          {
+            fileMatch = { "package.json" },
+            url = "https://json.schemastore.org/package.json",
+          },
+          {
+            fileMatch = { "tsconfig*.json" },
+            url = "https://json.schemastore.org/tsconfig.json",
+          },
+          {
+            fileMatch = { "prettierrc.json" },
+            url = "https://json.schemastore.org/prettierrc.json",
+          },
+        },
+      },
+    }
+  end,
 }
 
 for _, lsp in ipairs(servers) do
@@ -109,3 +139,7 @@ for _, lsp in ipairs(servers) do
 
   lspconfig[lsp].setup(opts)
 end
+
+vim.diagnostic.config { virtual_text = false }
+vim.o.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})]]

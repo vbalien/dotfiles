@@ -30,6 +30,7 @@ vim.cmd [[
 syntax enable
 autocmd BufNewFile,BufRead .eslintrc,.prettierrc,.parcelrc set filetype=json
 colorscheme dracula
+highlight NormalFloat guibg=gray10
 ]]
 
 local local_vimrc = vim.fn.getcwd() .. "/.nvimrc"

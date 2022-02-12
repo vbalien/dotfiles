@@ -8,6 +8,17 @@ local get_mapper = function(mode, noremap)
   end
 end
 
+function Util.highlight(group, fg, bg, attr, sp)
+  fg = fg and "guifg=" .. fg or "guifg=NONE"
+  bg = bg and "guibg=" .. bg or "guibg=NONE"
+  attr = attr and "gui=" .. attr or "gui=NONE"
+  sp = sp and "guisp=" .. sp or ""
+
+  vim.api.nvim_command(
+    "highlight " .. group .. " " .. fg .. " " .. bg .. " " .. attr .. " " .. sp
+  )
+end
+
 function Util.t(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end

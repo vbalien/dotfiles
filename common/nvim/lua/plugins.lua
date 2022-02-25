@@ -35,6 +35,51 @@ return require("packer").startup(function() -- If you want devicons
   use "neovim/nvim-lspconfig"
 
   use {
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      local null_ls = require "null-ls"
+      local command_resolver = require "null-ls.helpers.command_resolver"
+
+      require("null-ls").setup {
+
+        sources = {
+          null_ls.builtins.completion.spell,
+
+          -- formatting
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.deno_fmt.with {
+            condition = function(utils)
+              return utils.root_has_file { "deno.jsonc", "deno.json" }
+            end,
+          },
+          null_ls.builtins.formatting.prettier.with {
+            condition = function(utils)
+              return utils.root_has_file { ".prettierrc" }
+            end,
+            dynamic_command = function(params)
+              return command_resolver.from_node_modules(params)
+                or command_resolver.from_yarn_pnp(params)
+                or vim.fn.executable(params.command) == 1 and params.command
+            end,
+          },
+        },
+
+        on_attach = function(client)
+          if client.resolved_capabilities.document_formatting then
+            vim.cmd [[
+            augroup LspFormatting
+                autocmd! * <buffer>
+                autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+            augroup END
+            ]]
+          end
+        end,
+      }
+    end,
+    requires = { "nvim-lua/plenary.nvim" },
+  }
+
+  use {
     "hrsh7th/nvim-cmp",
     config = function()
       local cmp = require "cmp"

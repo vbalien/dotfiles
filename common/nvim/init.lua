@@ -26,6 +26,9 @@ set.completeopt = "menu,menuone,noselect"
 set.background = "dark"
 
 vim.g.dracula_lualine_bg_color = "#44475a"
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}
 vim.cmd [[
 syntax enable
 autocmd BufNewFile,BufRead .eslintrc,.prettierrc,.parcelrc set filetype=json

@@ -1,0 +1,10 @@
+[common.link]
+".gitconfig" = ['~/.gitconfig', "common/.gitconfig"]
+"starship.toml" = ['~\.config\starship.toml', "common/starship.toml"]
+
+[unix.link]
+nvim = ['~/.config/nvim', "common/nvim"]
+
+[windows.link]
+nvim = ['~\AppData\Local\nvim', "common/nvim"]
+wezterm = ['~\.config\wezterm', "windows/wezterm"]

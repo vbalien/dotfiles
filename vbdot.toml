@@ -1,10 +1,15 @@
 [common.link]
 ".gitconfig" = ['~/.gitconfig', "common/.gitconfig"]
-"starship.toml" = ['~\.config\starship.toml', "common/starship.toml"]
+"starship.toml" = ['~/.config/starship.toml', "common/starship.toml"]
 
 [unix.link]
 nvim = ['~/.config/nvim', "common/nvim"]
 
 [windows.link]
-nvim = ['~\AppData\Local\nvim', "common/nvim"]
-wezterm = ['~\.config\wezterm', "windows/wezterm"]
+nvim = ['~/AppData/Local/nvim', "common/nvim"]
+wezterm = ['~/.config/wezterm', "windows/wezterm"]
+PowerToys = ['~/Documents/PowerToys', "windows/PowerToys"]
+PowerShell_profile = [
+  '~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1',
+  "windows/PowerShell/Microsoft.PowerShell_profile.ps1",
+]

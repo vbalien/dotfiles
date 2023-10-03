@@ -1,3 +1,4 @@
+android = { link = { ".termux" = ["~/.termux", "android/.termux"] } }
 [common.link]
 ".gitconfig" = ['~/.gitconfig', "common/.gitconfig"]
 "starship.toml" = ['~/.config/starship.toml', "common/starship.toml"]

@@ -12,6 +12,8 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Alias
 alias vim=nvim
 alias open=xdg-open

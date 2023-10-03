@@ -4,6 +4,14 @@
 
 [unix.link]
 nvim = ['~/.config/nvim', "common/nvim"]
+".zshrc" = ["~/.zshrc", "unix/.zshrc"]
+tmux = ["~/.config/tmux/tmux.conf", "unix/tmux/tmux.conf"]
+
+["unix.gui".link]
+alacritty = ["~/.config/alacritty", "unix.gui/alacritty"]
+
+[linux.link]
+"gnome-shell.extensions" = ["~/.local/share/gnome-shell/extensions", "linux/gnome-shell/extensions"]
 
 [windows.link]
 nvim = ['~/AppData/Local/nvim', "common/nvim"]

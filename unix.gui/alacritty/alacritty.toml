@@ -1,0 +1,22 @@
+import = ["/home/elnyan/.config/alacritty/dracula.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 12.0
+normal = { family = "Terminess Nerd Font" }
+
+[window.dimensions]
+columns = 80
+lines = 26
+
+[keyboard]
+bindings = [
+  { mods = "Command", key = "P", chars = '\p' },
+  { mods = "Command", key = "O", chars = '\o' },
+  { mods = "Command", key = "F", chars = '\f' },
+  { mods = "Command", key = "Period", chars = " ca" },
+  { mods = "Command|Shift", key = "A", chars = "\\\u001B[65;1u" }
+]
+

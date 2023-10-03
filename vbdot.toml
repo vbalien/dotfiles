@@ -12,6 +12,7 @@ alacritty = ["~/.config/alacritty", "unix.gui/alacritty"]
 
 [linux.link]
 "gnome-shell.extensions" = ["~/.local/share/gnome-shell/extensions", "linux/gnome-shell/extensions"]
+fonts = ["~/.local/share/fonts", "linux/fonts"]
 
 [windows.link]
 nvim = ['~/AppData/Local/nvim', "common/nvim"]

@@ -1,7 +1,7 @@
-android = { link = { ".termux" = ["~/.termux", "android/.termux"] } }
 [common.link]
 ".gitconfig" = ['~/.gitconfig', "common/.gitconfig"]
 "starship.toml" = ['~/.config/starship.toml', "common/starship.toml"]
+bat = ["~/AppData/Roaming/bat", "common/bat"]
 
 [unix.link]
 nvim = ['~/.config/nvim', "common/nvim"]
@@ -23,3 +23,7 @@ PowerShell_profile = [
   '~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1',
   "windows/PowerShell/Microsoft.PowerShell_profile.ps1",
 ]
+
+[android.link]
+".termux" = ["~/.termux", "android/.termux"]
+

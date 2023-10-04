@@ -1,12 +1,12 @@
 [common.link]
 ".gitconfig" = ['~/.gitconfig', "common/.gitconfig"]
 "starship.toml" = ['~/.config/starship.toml', "common/starship.toml"]
-bat = ["~/AppData/Roaming/bat", "common/bat"]
 
 [unix.link]
 nvim = ['~/.config/nvim', "common/nvim"]
 ".zshrc" = ["~/.zshrc", "unix/.zshrc"]
 tmux = ["~/.config/tmux/tmux.conf", "unix/tmux/tmux.conf"]
+bat = ["~/.config/bat", "common/bat"]
 
 ["unix.gui".link]
 alacritty = ["~/.config/alacritty", "unix.gui/alacritty"]
@@ -23,6 +23,7 @@ PowerShell_profile = [
   '~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1',
   "windows/PowerShell/Microsoft.PowerShell_profile.ps1",
 ]
+bat = ["~/AppData/Roaming/bat", "common/bat"]
 
 [android.link]
 ".termux" = ["~/.termux", "android/.termux"]

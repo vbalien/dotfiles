@@ -12,8 +12,12 @@ bat = ["~/.config/bat", "common/bat"]
 alacritty = ["~/.config/alacritty", "unix.gui/alacritty"]
 
 [linux.link]
-"gnome-shell.extensions" = ["~/.local/share/gnome-shell/extensions", "linux/gnome-shell/extensions"]
+"gnome-shell.extensions" = [
+  "~/.local/share/gnome-shell/extensions",
+  "linux/gnome-shell/extensions",
+]
 fonts = ["~/.local/share/fonts", "linux/fonts"]
+themes = ["~/.themes", "linux/.themes"]
 
 [windows.link]
 nvim = ['~/AppData/Local/nvim', "common/nvim"]
@@ -27,4 +31,3 @@ bat = ["~/AppData/Roaming/bat", "common/bat"]
 
 [android.link]
 ".termux" = ["~/.termux", "android/.termux"]
-

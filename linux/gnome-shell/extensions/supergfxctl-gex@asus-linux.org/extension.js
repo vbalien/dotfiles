@@ -5,11 +5,10 @@ const Log = Me.imports.modules.log;
 const Panel = Me.imports.modules.panel;
 
 var Extension = class Extension {
-    constructor() {
-        this.gpuModeIndicator = null;
-        this.quickToggles = null;
-        this.systemMenu = null;
-    }
+    gpuModeIndicator = null;
+    quickToggles = null;
+    systemMenu = null;
+
     enable() {
         Gio.Resource.load(`${Me.path}/resources/org.gnome.Shell.Extensions.supergfxctl-gex.gresource`)._register();
         this.systemMenu = Main.panel.statusArea.quickSettings;
@@ -19,19 +18,26 @@ var Extension = class Extension {
         }
         this.gpuModeIndicator = new Panel.gpuModeIndicator();
         this.quickToggles = new Panel.gpuModeToggle(this.gpuModeIndicator);
-        this.gpuModeIndicator._indicator = this.gpuModeIndicator._addIndicator();
-        this.gpuModeIndicator._indicator.visible = true;
         this.gpuModeIndicator.quickSettingsItems.push(this.quickToggles);
+        this.enableSystemMenu();
+        return true;
+    }
+
+    enableSystemMenu() {
         this.systemMenu._indicators.remove_child(this.systemMenu._system);
         this.systemMenu._indicators.add_child(this.gpuModeIndicator);
-        this.systemMenu._addItems(this.gpuModeIndicator.quickSettingsItems);
         this.systemMenu._indicators.add_child(this.systemMenu._system);
+        this.systemMenu._addItems(this.gpuModeIndicator.quickSettingsItems);
+
+        for (const item of this.gpuModeIndicator.quickSettingsItems) {
+            this.systemMenu.menu._grid.set_child_below_sibling(item, this.systemMenu._backgroundApps.quickSettingsItems[0]);
+        }
     }
+
     disable() {
-        this.quickToggles.stop();
-        this.quickToggles.destroy();
+        this.quickToggles?.disable();
+        this.gpuModeIndicator?.destroy();
         this.quickToggles = null;
-        this.gpuModeIndicator.destroy();
         this.gpuModeIndicator = null;
     }
 }

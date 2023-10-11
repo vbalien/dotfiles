@@ -1,3 +1,6 @@
+SAVEHIST=1000
+HISTFILE=~/.zsh_history
+
 # Completion
 autoload -Uz compinit
 compinit

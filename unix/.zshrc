@@ -1,5 +1,6 @@
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
+setopt interactivecomments
 
 # Completion
 autoload -Uz compinit
@@ -31,12 +32,16 @@ alias vim=nvim
 # Prompt
 eval "$(starship init zsh)"
 
-# ScreenFetch
-pfetch
 
 # bun completions
-[ -s "/Users/vbalien/.bun/_bun" ] && source "/Users/vbalien/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# screen fetch
+pfetch
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# spicetify
+export PATH=$PATH:/home/elnyan/.spicetify

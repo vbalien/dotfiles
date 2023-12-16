@@ -45,3 +45,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # spicetify
 export PATH=$PATH:/home/elnyan/.spicetify
+export PATH="$PATH:$HOME/.local/bin"

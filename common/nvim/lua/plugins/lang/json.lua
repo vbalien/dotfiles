@@ -9,6 +9,13 @@ return {
 	},
 
 	{
+		"williamboman/mason.nvim",
+		opts = function(_, opts)
+			table.insert(opts.ensure_installed, "json-lsp")
+		end,
+	},
+
+	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"b0o/SchemaStore.nvim",

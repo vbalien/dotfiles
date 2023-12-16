@@ -31,4 +31,8 @@ return {
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},
+	{
+		"hiphish/rainbow-delimiters.nvim",
+		event = { "BufReadPost", "BufNewFile" },
+	},
 }

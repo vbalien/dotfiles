@@ -30,7 +30,7 @@ return {
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "dracula-nvim",
+					theme = "catppuccin",
 					section_separators = "",
 					component_separators = "",
 				},
@@ -47,6 +47,7 @@ return {
 		},
 		opts = {
 			options = {
+				highlights = require("catppuccin.groups.integrations.bufferline").get(),
 				diagnostics = "nvim_lsp",
 				always_show_bufferline = true,
 				offsets = {

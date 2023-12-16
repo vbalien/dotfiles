@@ -7,11 +7,25 @@ return {
 			end
 		end,
 	},
+
+	{
+		"williamboman/mason.nvim",
+		opts = function(_, opts)
+			table.insert(opts.ensure_installed, "omnisharp")
+		end,
+	},
+
 	{
 		"neovim/nvim-lspconfig",
 		opts = {
 			servers = {
-				omnisharp = {},
+				omnisharp = {
+					enable_editorconfig_support = true,
+					analyze_open_documents_only = true,
+					enable_roslyn_analyzers = true,
+					enable_import_completion = true,
+					organize_imports_on_format = true,
+				},
 			},
 
 			setup = {

@@ -41,6 +41,7 @@ end
 ----------------
 nnoremap("<Leader>p", function() -- find files
 	return require("telescope.builtin").find_files({
+		find_command = { "rg", "--files", "--hidden", "--color", "never" },
 		borderchars = borderchars({}),
 	})
 end, {

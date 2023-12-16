@@ -1,4 +1,4 @@
-vim.cmd([[colorscheme dracula]])
+vim.cmd.colorscheme("catppuccin")
 
 -- border config
 local border = {

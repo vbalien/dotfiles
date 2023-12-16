@@ -31,6 +31,12 @@ return {
 					quit_on_open = true,
 				},
 			},
+
+			filters = {
+				custom = {
+					"\\.meta$",
+				},
+			},
 		})
 	end,
 }

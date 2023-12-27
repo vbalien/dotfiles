@@ -4,15 +4,15 @@
  * extension wireless-hid
  * JavaScript Gnome extension for wireless keyboards and mice.
  *
- * @author Václav Chlumský
- * @copyright Copyright 2021, Václav Chlumský.
+ * @author Václav Chlumský, Stuart Hayhurst
+ * @copyright Copyright 2023, Václav Chlumský.
  */
 
  /**
  * @license
  * The MIT License (MIT)
  *
- * Copyright (c) 2021 Václav Chlumský
+ * Copyright (c) 2023 Václav Chlumský
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,45 +33,26 @@
  * THE SOFTWARE.
  */
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const ShellVersion = parseFloat(imports.misc.config.PACKAGE_VERSION);
+import Gdk from 'gi://Gdk';
+import Gtk from 'gi://Gtk';
+import Gio from 'gi://Gio';
 
-const { Gdk, Gtk, Gio } = imports.gi;
-const Adw = ShellVersion >= 42 ? imports.gi.Adw : null;
+import { ExtensionPreferences } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 var PrefsPage = class PrefsPage {
-    constructor() {
-        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.wireless-hid');
-
-        // Load css style for Gnome < 42
-        const cssProvider = new Gtk.CssProvider();
-        cssProvider.load_from_path(Me.path + '/prefs.css');
-
-        if (ShellVersion >= 40 && ShellVersion < 42 ) {
-            Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(),
-                cssProvider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-        } else if (ShellVersion < 40) {
-            Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
-                cssProvider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-        }
+    constructor(settings, path) {
+        this._settings = settings;
+        this._path = path;
 
         // Create a new Builder to load UI
         this._builder = new Gtk.Builder();
-        // this._builder.set_translation_domain(Me.metadata.uuid);
 
         this.createPreferences();
     }
 
     createPreferences() {
-        // Use different UI file for GNOME 42+, 40+ and 3.36+
-        if (ShellVersion >= 42) {
-            this._builder.add_from_file(Me.path + '/ui/prefs-adw1.ui');
-        } else if (ShellVersion >= 40) {
-            this._builder.add_from_file(Me.path + '/ui/prefs-gtk4.ui');
-        } else {
-            this._builder.add_from_file(Me.path + '/ui/prefs-gtk3.ui');
-        }
+        // Load libadwaita UI file
+        this._builder.add_from_file(this._path + '/prefs-adw1.ui');
 
         // Get the settings container widget
         this.preferencesWidget = this._builder.get_object('main-prefs');
@@ -111,35 +92,11 @@ var PrefsPage = class PrefsPage {
     }
 }
 
-function init() {
-  // ExtensionUtils.initTranslations();
-}
-
-//Create preferences window for GNOME 42+
-function fillPreferencesWindow(window) {
-    let prefsPage = new PrefsPage();
-    window.set_default_size(600, 435);
-    window.add(prefsPage.preferencesWidget);
-}
-
-//Create preferences window for GNOME 3.38 to 41
-function buildPrefsWidget() {
-    let prefsPage = new PrefsPage();
-
-    if (prefsPage.preferencesWidget.show_all) {
-        prefsPage.preferencesWidget.show_all();
+export default class WirelessHIDPrefs extends ExtensionPreferences {
+    //Create preferences window
+    fillPreferencesWindow(window) {
+        let prefsPage = new PrefsPage(this.getSettings(), this.path);
+        window.set_default_size(600, 435);
+        window.add(prefsPage.preferencesWidget);
     }
-
-    prefsPage.preferencesWidget.connect('realize', () => {
-        let window = ShellVersion >= 40 ? prefsPage.preferencesWidget.get_root() :
-            prefsPage.preferencesWidget.get_toplevel();
-        if (ShellVersion >= 40) {
-            window.set_default_size(600, 435);
-        } else {
-            window.resize(600, 435);
-        }
-    });
-
-    return prefsPage.preferencesWidget;
 }
-

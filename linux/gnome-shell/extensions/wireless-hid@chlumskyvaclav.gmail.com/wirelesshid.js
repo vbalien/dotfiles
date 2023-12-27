@@ -4,15 +4,15 @@
  * extension wireless-hid
  * JavaScript Gnome extension for wireless keyboards and mice.
  *
- * @author Václav Chlumský
- * @copyright Copyright 2021, Václav Chlumský.
+ * @author Václav Chlumský, Stuart Hayhurst
+ * @copyright Copyright 2023, Václav Chlumský.
  */
 
  /**
  * @license
  * The MIT License (MIT)
  *
- * Copyright (c) 2021 Václav Chlumský
+ * Copyright (c) 2023 Václav Chlumský
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,13 +33,15 @@
  * THE SOFTWARE.
  */
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
+import St from 'gi://St';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import UPowerGlib from 'gi://UPowerGlib';
+import Clutter from 'gi://Clutter';
 
-const { St, GLib, GObject, UPowerGlib, Clutter } = imports.gi;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 
 var HID = GObject.registerClass({
     Signals: {
@@ -49,11 +51,10 @@ var HID = GObject.registerClass({
         'destroy': {}
     }
 }, class HID extends GObject.Object {
-    _init(device) {
+    _init(device, settings) {
         super._init();
 
         this.device = device;
-        this.model = device.model;
         this.nativePath = device.native_path;
         this.icon = null;
         this.item = null;
@@ -62,7 +63,7 @@ var HID = GObject.registerClass({
         this._signals = {};
         this._timeoutUpdateTimeoutId = null;
 
-        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.wireless-hid');
+        this._settings = settings;
 
         this._connectSignals();
     }
@@ -117,29 +118,36 @@ var HID = GObject.registerClass({
     _shouldBatteryVisible() {
         let shouldBeVisible = true;
         if (this.device.is_present === false) {
-            shouldBeVisible = false;
+            return false;
+        }
+
+        // Hide devices without model names
+        if (this.device.model === null) {
+            return false;
+        } else if (this.device.model.length === 0) {
+            return false;
         }
 
         // Hide system batteries
         if (this.device.kind == UPowerGlib.DeviceKind.BATTERY) {
-          shouldBeVisible = false;
+          return false;
         }
 
-        //Some devices report 'present' as true, even if no battery is present
-        //To try work-around this, hide devices with an unknown battery state if enabled
+        // Some devices report 'present' as true, even if no battery is present
+        // To try work-around this, hide devices with an unknown battery state if enabled
         if (this._settings.get_boolean('hide-unknown-battery-state')) {
             if (this.device.state === UPowerGlib.DeviceState.UNKNOWN) {
-                shouldBeVisible = false;
+                return false;
             }
         }
 
         if (this._settings.get_boolean('hide-elan')) {
             if (this.device.model.startsWith('ELAN')) {
-                shouldBeVisible = false;
+                return false;
             }
         }
 
-        return shouldBeVisible;
+        return true;
     }
 
     _updateLabel() {
@@ -151,13 +159,13 @@ var HID = GObject.registerClass({
     }
 
     refresh() {
-        //If a timeout is already set, remove it
+        // If a timeout is already set, remove it
         if (this._timeoutUpdateTimeoutId != null) {
             GLib.Source.remove(this._timeoutUpdateTimeoutId);
             this._timeoutUpdateTimeoutId = null;
         }
 
-        //If enabled, create a timer to hide the device if it's not cancelled by an update
+        // If enabled, create a timer to hide the device if it's not cancelled by an update
         let deviceTimeoutLength = this._settings.get_int('device-update-timeout') * 1000;
         if (deviceTimeoutLength != 0) {
             this._timeoutUpdateTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, deviceTimeoutLength, () => {
@@ -230,12 +238,14 @@ var HID = GObject.registerClass({
         }
 
         // Workarounds for incorrectly identified devices
-        if (this.model.includes('Mouse')) {
-            iconName = 'input-mouse';
-        } else if (this.model.includes('Controller')) {
-            iconName = 'input-gaming';
-        } else if (this.model.includes('Headset')) {
-            iconName = 'audio-headset';
+        if (this.device.model !== null) {
+            if (this.device.model.includes('Mouse')) {
+                iconName = 'input-mouse';
+            } else if (this.device.model.includes('Controller')) {
+                iconName = 'input-gaming';
+            } else if (this.device.model.includes('Headset')) {
+                iconName = 'audio-headset';
+            }
         }
 
         this.icon = new St.Icon({
@@ -253,8 +263,9 @@ var HID = GObject.registerClass({
 
         this.item.remove_child(this.item.label);
 
+        let model = this.device.model;
         let name = new St.Label({
-            text: `${this.model}:`,
+            text: model !== null ? `${model}:` : 'Unknown:',
             y_align: Clutter.ActorAlign.CENTER,
             x_align: Clutter.ActorAlign.START
         });
@@ -309,7 +320,7 @@ var HID = GObject.registerClass({
  * @constructor
  * @return {Object} menu widget instance
  */
-var WirelessHID = GObject.registerClass({
+export var WirelessHID = GObject.registerClass({
     GTypeName: 'WirelessHID'
 }, class WirelessHID extends PanelMenu.Button {
 
@@ -319,12 +330,12 @@ var WirelessHID = GObject.registerClass({
      * @method _init
      * @private
      */
-    _init() {
+    _init(name, settings) {
 
-        super._init(0.0, Me.metadata.name, false);
+        super._init(0.0, name, false);
 
         // Get saved settings
-        this._settings = ExtensionUtils.getSettings();
+        this._settings = settings;
         this._getPrefs();
 
         // Connect to the changed signal
@@ -359,7 +370,7 @@ var WirelessHID = GObject.registerClass({
     }
 
     newDevice(device) {
-        this._devices[device.native_path] = new HID(device);
+        this._devices[device.native_path] = new HID(device, this._settings);
 
         this._panelBox.add(this._devices[device.native_path].createIcon());
         this.menu.addMenuItem(this._devices[device.native_path].createItem());
@@ -372,7 +383,7 @@ var WirelessHID = GObject.registerClass({
                   this.menu.addMenuItem(this._devices[device.native_path].createItem());
                   this._devices[device.native_path].visible = true;
                 }
-                //Uses _update() to avoid cutting timeout short
+                // Uses _update() to avoid cutting timeout short
                 this._devices[device.native_path]._update();
                 this.checkVisibility();
             }
@@ -386,7 +397,7 @@ var WirelessHID = GObject.registerClass({
             }
         );
 
-        //Refresh device with signals now connected
+        // Refresh device with signals now connected
         this._devices[device.native_path].refresh();
 
         this._devices[device.native_path].connect('destroy',
@@ -423,10 +434,6 @@ var WirelessHID = GObject.registerClass({
 
             // Add new devices
             for (let i = 0; i < freshDevices.length; i++) {
-                if (freshDevices[i].model.length === 0) {
-                    continue;
-                }
-
                 let found = false;
                 for (let j in this._devices) {
                     if (this._devices[j].nativePath === freshDevices[i].native_path) {
@@ -468,11 +475,6 @@ var WirelessHID = GObject.registerClass({
         if (this._settingsChangedId) {
             this._settings.disconnect(this._settingsChangedId);
             this._settingsChangedId = 0;
-        }
-
-        if (this._settings) {
-            this._settings.run_dispose();
-            this._settings = null;
         }
 
         for (let deviceId in this._devices) {

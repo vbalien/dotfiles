@@ -5,7 +5,7 @@
   - wireless-hid shows the battery of the wireless keyboards, mice, and game controllers
     - Displays battery percentage with coloured status indicators
     - Supports multiple devices
-  - Supports GNOME 3.36+
+  - Supports GNOME 45+
   - Inspired by the Keyboard battery extension on e.g.o
 
 ## Troubleshooting
@@ -30,12 +30,6 @@
   - These are only required to install from source
   - `make`
   - `gnome-shell` (`gnome-extensions` command)
-  - `libglib2.0-bin`
-
-## Development dependencies
-  - This is only required for the `gtk4` build target
-    - If you don't know what that is, you don't need this
-  - `libgtk-4-bin`
 
 ## Extension settings:
   > Hide unknown battery states:

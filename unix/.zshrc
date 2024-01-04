@@ -9,14 +9,13 @@ zstyle ':completion:*' menu select
 bindkey '^[[Z' reverse-menu-complete
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-alias open=xdg-open
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif grep -q "fedora" /etc/os-release; then
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
+
 
 # Syntax highlight
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
@@ -28,6 +27,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # Alias
 alias vim=nvim
+
+if [[ "$OSTYPE" == "linux"* ]]; then
+  alias open=xdg-open
+fi
 
 # Prompt
 eval "$(starship init zsh)"

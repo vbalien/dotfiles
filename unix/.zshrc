@@ -33,8 +33,10 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=none
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=none,fg=magenta,bold'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=none
 
-
-export PATH="$HOME/.cargo/bin:$PATH"
+# plugin options
+HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='I'
+HISTORY_SUBSTRING_SEARCH_PREFIXED=true
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
 # Alias
 alias vim=nvim
@@ -49,8 +51,8 @@ eval "$(starship init zsh)"
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# screen fetch
-pfetch
+# cargo
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -59,3 +61,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # spicetify
 export PATH=$PATH:/home/elnyan/.spicetify
 export PATH="$PATH:$HOME/.local/bin"
+
+# screen fetch
+pfetch

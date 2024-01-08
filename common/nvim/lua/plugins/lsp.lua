@@ -45,19 +45,19 @@ return {
 		},
 		---@param opts PluginLspOpts
 		config = function(_, opts)
-			vim.lsp.handlers["textDocument/publishDiagnostics"] =
-				vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-					severity_sort = true,
-					underline = {
-						severity_limit = "Information",
-					},
-					signs = {
-						severity_limit = "Information",
-					},
-					virtual_text = {
-						severity_limit = "Warning",
-					},
-				})
+			-- vim.lsp.handlers["textDocument/publishDiagnostics"] =
+			-- 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+			-- 		severity_sort = true,
+			-- 		underline = {
+			-- 			severity_limit = "Information",
+			-- 		},
+			-- 		signs = {
+			-- 			severity_limit = "Information",
+			-- 		},
+			-- 		virtual_text = {
+			-- 			severity_limit = "Warning",
+			-- 		},
+			-- 	})
 
 			local servers = opts.servers
 			local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")

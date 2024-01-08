@@ -54,7 +54,7 @@ nnoremap("<Leader>o", function() -- find files with grep
 end, {
 	silent = true,
 })
-nnoremap("<Leader>f", function() -- find in current buffer
+nnoremap("<Leader>ff", function() -- find in current buffer
 	return require("telescope.builtin").current_buffer_fuzzy_find({
 		borderchars = borderchars({}),
 	})

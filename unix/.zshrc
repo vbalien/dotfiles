@@ -17,9 +17,14 @@ elif grep -q "fedora" /etc/os-release; then
   source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   source /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh
   source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+else
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # Key mapping
+bindkey -e
 bindkey "^P"   history-substring-search-up
 bindkey "^N"   history-substring-search-down
 bindkey "^[[A" history-substring-search-up

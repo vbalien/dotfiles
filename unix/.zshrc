@@ -63,6 +63,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# deno
+export DENO_INSTALL="$HOME/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
 # spicetify
 export PATH=$PATH:/home/elnyan/.spicetify
 export PATH="$PATH:$HOME/.local/bin"

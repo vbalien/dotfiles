@@ -20,6 +20,7 @@ This is a Gnome Shell extension that takes the apps search widget out of Overvie
 
 ### Notice
 
+* Gnome 46 port is ready for testing
 * Gnome 45 port is ready for testing
 * Gnome 44 and prior will be under g44 branch
 
@@ -45,7 +46,7 @@ $ make
 
 From Gnome Extensions Repository
 
-Visit [repository](https://extensions.gnome.org/extension/5489/search-light/)
+Visit [[repository](https://extensions.gnome.org/extension/5489/search-light/)](https://extensions.gnome.org/extension/5489/search-light/)
 
 ### Keybinding
 

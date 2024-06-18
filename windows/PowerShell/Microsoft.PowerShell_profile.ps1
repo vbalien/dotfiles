@@ -61,4 +61,5 @@ Set-Alias -Name gpg  -Value (join-path (scoop prefix git) 'usr\bin\gpg.exe')
 # oh-my-posh init pwsh --config "~/.vbalien.omp.json" | Invoke-Expression
 
 Invoke-Expression (&starship init powershell)
+
 pfetch

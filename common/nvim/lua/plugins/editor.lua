@@ -149,13 +149,15 @@ return {
 		event = { "BufReadPost", "BufNewFile" },
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = {
-			auto_open = true,
 			auto_close = true,
 			auto_fold = true,
 			height = 8,
 			action_keys = {
 				jump_close = {},
 				toggle_fold = { "o" },
+			},
+			modes = {
+				diagnostics = { auto_open = true },
 			},
 		},
 	},

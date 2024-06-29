@@ -3,3 +3,5 @@
 	name = Jisu Kim
 [core]
 	autocrlf = true
+[push]
+	autoSetupRemote = true

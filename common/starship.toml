@@ -45,7 +45,8 @@ error_symbol = ' [✗](bold red)'
 
 [username]
 show_always = true
-format = '$user'
+style_user = 'text'
+format = '[$user]($style)'
 disabled = false
 
 [hostname]

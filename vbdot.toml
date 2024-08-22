@@ -28,6 +28,7 @@ PowerShell_profile = [
   "windows/PowerShell/Microsoft.PowerShell_profile.ps1",
 ]
 bat = ["~/AppData/Roaming/bat", "common/bat"]
+nushell = ["~/AppData/Roaming/nushell", "windows/nushell"]
 
 [android.link]
 ".termux" = ["~/.termux", "android/.termux"]

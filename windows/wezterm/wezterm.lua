@@ -7,11 +7,8 @@ local default_font = wezterm.font("Terminess Nerd Font", {
 
 return {
 	color_scheme = "Catppuccin Mocha",
-	-- color_scheme = "Dracula (Official)",
-
 	default_prog = {
-		"pwsh.exe",
-		"-NoLogo",
+		"nu.exe",
 	},
 	font = default_font,
 	font_size = 10.5,

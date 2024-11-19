@@ -20,14 +20,14 @@ return {
 		"neovim/nvim-lspconfig",
 		opts = {
 			servers = {
-				tsserver = {
+				ts_ls = {
 					single_file_support = false,
 				},
 				-- denols = {},
 			},
 		},
 		setup = {
-			tsserver = function(_, opts)
+			ts_ls = function(_, opts)
 				local nvim_lsp = require("nvim_lsp")
 				opts.root_dir = nvim_lsp.util.root_pattern("package.json")
 				return false
@@ -45,7 +45,7 @@ return {
 		"lukas-reineke/lsp-format.nvim",
 		opts = {
 			typescript = {
-				exclude = { "tsserver" },
+				exclude = { "ts_ls" },
 			},
 		},
 	},

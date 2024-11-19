@@ -65,7 +65,7 @@ return {
 		{ key = "n", mods = "SHIFT|CTRL", action = "ToggleFullScreen" },
 		{ key = "v", mods = "SHIFT|CTRL", action = wezterm.action.PasteFrom("Clipboard") },
 		{ key = "c", mods = "SHIFT|CTRL", action = wezterm.action.CopyTo("ClipboardAndPrimarySelection") },
-		{ key = "p", mods = "WIN|ALT", action = wezterm.action.SendString("\\p") },
+		{ key = "p", mods = "ALT|SHIFT", action = wezterm.action.SendString("\\p") },
 		{ key = "o", mods = "WIN|ALT", action = wezterm.action.SendString("\\o") },
 		{ key = "f", mods = "WIN|ALT|SHIFT", action = wezterm.action.SendString("\\f") },
 		{ key = ".", mods = "WIN|ALT", action = wezterm.action.SendString(" ca") },

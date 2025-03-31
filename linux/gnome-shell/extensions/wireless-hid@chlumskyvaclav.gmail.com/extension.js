@@ -33,25 +33,34 @@
  * THE SOFTWARE.
  */
 
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as WirelessHID from './wirelesshid.js';
 
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
 export default class WirelessHIDExtension extends Extension {
     enable() {
-        this._hid = new WirelessHID.WirelessHID(this.metadata.name, this.getSettings());
+        this._settings = this.getSettings();
+        this._hid = new WirelessHID.WirelessHID(this.metadata.name, this._settings);
 
-        Main.panel.addToStatusArea('wireless-hid', this._hid);
-        this._hid.checkVisibility();
+        // Add indicator to correct position in the panel
+        this._hid.updatePanelPosition();
+        this._hid.updateVisibility();
 
-        /* Get stored settings and change actor position in panel */
-        this._hid._getPrefs();
-        this._hid._resetPanelPos();
+        // Reload the extension when settings change
+        this._settingsChangedId = this._settings.connect(
+            'changed', () => {
+                this._hid.destroy();
+                this._hid = new WirelessHID.WirelessHID(this.metadata.name, this._settings);
+                this._hid.updatePanelPosition();
+                this._hid.updateVisibility();
+            }
+        );
     }
 
     disable() {
+        this._settings.disconnect(this._settingsChangedId);
         this._hid.destroy();
         this._hid = null;
+        this._settings = null;
     }
 }

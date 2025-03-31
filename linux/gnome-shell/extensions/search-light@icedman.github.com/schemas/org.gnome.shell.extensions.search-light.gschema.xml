@@ -46,6 +46,11 @@
         <summary>Shortcut</summary>
         <description>Keyboard shortcut for search</description>
     </key>
+    <key type="as" name="secondary-shortcut-search">
+        <default><![CDATA[[]]]></default>
+        <summary>Shortcut</summary>
+        <description>Keyboard shortcut for search</description>
+    </key>
     <key type="b" name="popup-at-cursor-monitor">
         <default>false</default>
         <summary>Popup at Cursor</summary>
@@ -96,6 +101,36 @@
         <default>false</default>
         <summary>Show panel icon</summary>
         <description></description>
+    </key>
+    <key type="b" name="unit-converter">
+        <default>false</default>
+        <summary>Show unit converter</summary>
+        <description></description>
+    </key>
+    <key type="b" name="currency-converter">
+        <default>false</default>
+        <summary>Show currency converter</summary>
+        <description></description>
+    </key>
+    <key type="i" name="window-effect">
+        <default>0</default>
+        <summary>Window effect</summary>
+        <description>Set window rendering effect.</description>
+    </key>
+    <key type="(dddd)" name="window-effect-color">
+        <default>(1.,1.,1.,1.)</default>
+        <summary>Rendering effect color</summary>
+        <description>Set the window rendering effect color.</description>
+    </key>
+    <key type="b" name="use-animations">
+	<default>true</default>
+	<summary>Use window animations</summary>
+	<description>Toggle animations when the search window appears or disappears.</description>
+    </key>
+    <key type="d" name="animation-speed">
+	<default>100</default>
+	<summary>Animation speed</summary>
+	<description>Change the speed of the appear and disappear window effect.</description>
     </key>
   </schema>
 </schemalist>

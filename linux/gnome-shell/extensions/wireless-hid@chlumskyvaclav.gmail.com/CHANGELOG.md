@@ -1,3 +1,21 @@
+## Version 21
+ * Gnome 48 support
+## Version 20
+ * null out this._settings when extension is disabled
+## Version 19
+ - (Thx to @stuarthayhurst)
+ * add support for GNOME 47
+ * add setting to toggle device reported warning levels
+ * reload entire extension when settings change
+## Version 18
+ - (Thx to @stuarthayhurst)
+ * refactor getColorEffect()
+ * don't duplicate this.device.percentage, drop getBattery()
+ * remove _getPrefs()
+ * rename exposed methods of extension indicator class
+ * change low and critical percentages to 20 and 5 to match UPower defaults
+ * use the warning level from UPower, instead of hardcoding percentages
+ * drop local hacks to override the panel box, use the upstream methods
 ## Version 17
  * Gnome 46 support - (Thx to @stuarthayhurst)
 ## Version 16

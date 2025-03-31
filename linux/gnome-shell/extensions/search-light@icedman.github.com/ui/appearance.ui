@@ -162,6 +162,67 @@
             </child>
           </object>
         </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Window Effect</property>
+            <property name="subtitle" translatable="yes">Set window rendering effect.</property>
+            <property name="activatable-widget">window-effect</property>
+            <child>
+              <object class="GtkDropDown" id="window-effect">
+                <property name="valign">center</property>
+                <property name="model">window-effect-model</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Window Effect Color</property>
+            <property name="subtitle" translatable="yes">Select window effect color.</property>
+            <property name="activatable-widget">window-effect-color</property>
+            <child>
+              <object class="GtkColorButton" id="window-effect-color">
+                <property name="valign">center</property>
+                <property name="hexpand">false</property>
+                <property name="width-request">70px</property>
+                <property name="height-request">45px</property>
+                <property name="show-editor">true</property>
+                <property name="use-alpha">true</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Animations</property>
+            <property name="subtitle" translatable="yes">Enable fade-in and fade-out animations.</property>
+            <property name="activatable-widget">use-animations</property>
+            <child>
+              <object class="GtkSwitch" id="use-animations">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Animation Speed</property>
+            <property name="subtitle" translatable="yes">Set the animation speed. Lower is faster.</property>
+            <property name="activatable-widget">animation-speed</property>
+            <child>
+              <object class="GtkScale" id="animation-speed">
+                <property name="valign">center</property>
+                <property name="hexpand">true</property>
+                <property name="width-request">140px</property>
+                <property name="draw-value">true</property>
+                <property name="value-pos">right</property>
+                <property name="orientation">horizontal</property>
+                <property name="digits">0</property>
+                <property name="adjustment">animation-speed-adjust</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
     <child>
@@ -185,11 +246,10 @@
             </child>
           </object>
         </child>
-        <!--
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Background Blur</property>
-            <property name="subtitle" translatable="yes">Add background blur with current wallpaper.</property>
+            <property name="subtitle" translatable="yes">Add background blur with current wallpaper. Requires imagemagick installed.</property>
             <property name="activatable-widget">blur-background</property>
             <child>
               <object class="GtkSwitch" id="blur-background">
@@ -200,6 +260,7 @@
         </child>
         <child>
           <object class="AdwActionRow">
+            <property name="visible">false</property>
             <property name="title" translatable="yes">Sigma</property>
             <property name="subtitle" translatable="yes">The intensity of the blur.</property>
             <property name="activatable-widget">blur-sigma</property>
@@ -219,6 +280,7 @@
         </child>
         <child>
           <object class="AdwActionRow">
+            <property name="visible">false</property>
             <property name="title" translatable="yes">Brightness</property>
             <property name="subtitle" translatable="yes">The brightness of the blur effect, a high value might make the text harder to read.</property>
             <property name="activatable-widget">blur-brightness</property>
@@ -236,7 +298,6 @@
             </child>
           </object>
         </child>
-        -->
       </object>
     </child>
   </object>
@@ -290,5 +351,18 @@
     <property name="lower">0.0</property>
     <property name="upper">1.0</property>
     <property name="step-increment">0.01</property>
+  </object>
+  <object class="GtkStringList" id="window-effect-model">
+    <items>
+      <item translatable="yes">None</item>
+      <item translatable="yes">Tint</item>
+      <item translatable="yes">Monochrome</item>
+      <!-- <item translatable="yes">(Test)</item> -->
+    </items>
+  </object>
+  <object class="GtkAdjustment" id="animation-speed-adjust">
+    <property name="lower">10</property>
+    <property name="upper">1000</property>
+    <property name="step-increment">5</property>
   </object>
 </interface>

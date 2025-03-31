@@ -3,9 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-// -*- mode: js2; indent-tabs-mode: nil; js2-basic-offset: 4 -*-
-// Start apps on custom workspaces
-
 import Adw from 'gi://Adw';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
@@ -45,11 +42,11 @@ class NewItemModel extends GObject.Object {
 class Rule extends GObject.Object {
     static [GObject.properties] = {
         'app-info': GObject.ParamSpec.object(
-            'app-info', 'app-info', 'app-info',
+            'app-info', null, null,
             GObject.ParamFlags.READWRITE,
             Gio.DesktopAppInfo),
         'workspace': GObject.ParamSpec.uint(
-            'workspace', 'workspace', 'workspace',
+            'workspace', null, null,
             GObject.ParamFlags.READWRITE,
             1, WORKSPACE_MAX, 1),
     };
@@ -196,7 +193,7 @@ class AutoMoveSettingsWidget extends Adw.PreferencesGroup {
 class WorkspaceSelector extends Gtk.Widget {
     static [GObject.properties] = {
         'number': GObject.ParamSpec.uint(
-            'number', 'number', 'number',
+            'number', null, null,
             GObject.ParamFlags.READWRITE,
             1, WORKSPACE_MAX, 1),
     };

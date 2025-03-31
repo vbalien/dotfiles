@@ -38,10 +38,14 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import UPowerGlib from 'gi://UPowerGlib';
 import Clutter from 'gi://Clutter';
+import Cogl from 'gi://Cogl';
 
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+
+const ShellVersion = parseFloat(Config.PACKAGE_VERSION);
 
 var HID = GObject.registerClass({
     Signals: {
@@ -76,43 +80,44 @@ var HID = GObject.registerClass({
             this.refresh.bind(this)
         );
         this._signals[signal] = this.device;
-
-        signal = this._settings.connect(
-            'changed',
-            this.refresh.bind(this)
-        );
-        this._signals[signal] = this._settings;
     }
 
-    getBattery() {
-        return this.device.percentage;
-    }
+    _getColorEffect() {
+        // Decide the level
+        let level = 'normal';
+        if (this._settings.get_boolean('use-device-levels')) {
+            if (this.device.warning_level === UPowerGlib.DeviceLevel.CRITICAL) {
+                level = 'critical';
+            } else if (this.device.warning_level === UPowerGlib.DeviceLevel.LOW) {
+                level = 'low';
+            }
+        } else {
+            if (this.device.percentage <= 5) {
+                level = 'critical';
+            } else if (this.device.percentage <= 20) {
+                level = 'low';
+            }
+        }
 
-    getColorEffect(percentage) {
-        let r;
-        let g;
-        let b;
-
-        if (percentage <= 10) {
-            r = 255;
-            g = 0;
-            b = 0;
-        } else if (percentage <= 30) {
-            r = 255;
-            g = 165;
-            b = 0;
+        //Decide colour, or return
+        let color;
+        if (level === 'critical') {
+            if (ShellVersion >= 47) {
+                color = Cogl.Color.from_string('#ff0000ff')[1];
+            } else {
+                color = Clutter.Color.new(255, 0, 0, 255);
+            }
+        } else if (level === 'low') {
+            if (ShellVersion >= 47) {
+                color = Cogl.Color.from_string('#ffa500ff')[1];
+            } else {
+                color = Clutter.Color.new(255, 165, 0, 255);
+            }
         } else {
             return null;
         }
 
-        let color = new Clutter.Color({
-            red: r,
-            green: g,
-            blue: b,
-            alpha: 255
-        });
-
-        return new Clutter.ColorizeEffect({tint: color});
+        return Clutter.ColorizeEffect.new(color);
     }
 
     _shouldBatteryVisible() {
@@ -151,10 +156,8 @@ var HID = GObject.registerClass({
     }
 
     _updateLabel() {
-        this.percentage = this.getBattery();
-
         if (this.label !== null) {
-            this.label.text = `${this.percentage}%`;
+            this.label.text = `${this.device.percentage}%`;
         }
     }
 
@@ -184,7 +187,7 @@ var HID = GObject.registerClass({
         if (this.icon !== null) {
             this.icon.clear_effects();
 
-            let colorEffect = this.getColorEffect(this.percentage);
+            let colorEffect = this._getColorEffect();
             if (colorEffect) {
                 this.icon.add_effect(colorEffect);
             }
@@ -336,14 +339,8 @@ export var WirelessHID = GObject.registerClass({
 
         // Get saved settings
         this._settings = settings;
-        this._getPrefs();
 
-        // Connect to the changed signal
-        this._settingsChangedId = this._settings.connect(
-            'changed', () => {
-            this._getPrefs();
-            this._resetPanelPos();
-        });
+
 
         this._upowerClient = UPowerGlib.Client.new_full(null);
         this._devices = {};
@@ -386,7 +383,7 @@ export var WirelessHID = GObject.registerClass({
                 }
                 // Uses _update() to avoid cutting timeout short
                 this._devices[device.native_path]._update();
-                this.checkVisibility();
+                this.updateVisibility();
             }
         );
 
@@ -394,7 +391,7 @@ export var WirelessHID = GObject.registerClass({
             () => {
                 this._panelBox.remove_child(this._devices[device.native_path].icon);
                 this._devices[device.native_path].clean();
-                this.checkVisibility();
+                this.updateVisibility();
             }
         );
 
@@ -406,7 +403,7 @@ export var WirelessHID = GObject.registerClass({
                 if (this._devices[device.native_path].visible) {
                     this._panelBox.remove_child(this._devices[device.native_path].icon);
                     this._devices[device.native_path].clean();
-                    this.checkVisibility();
+                    this.updateVisibility();
                 }
             }
         );
@@ -449,11 +446,11 @@ export var WirelessHID = GObject.registerClass({
             }
 
             this._updatingDevices = false;
-            this.checkVisibility();
+            this.updateVisibility();
         }
     }
 
-    checkVisibility() {
+    updateVisibility() {
         if (Main.panel.statusArea['wireless-hid'] === undefined) {
             return;
         }
@@ -469,40 +466,21 @@ export var WirelessHID = GObject.registerClass({
         Main.panel.statusArea['wireless-hid'].visible = showDevices;
     }
 
+    updatePanelPosition() {
+        // Add the container to the correct box
+        let position = this._settings.get_string('position-in-panel').toLowerCase();
+        let index = this._settings.get_int('panel-box-index');
+        Main.panel.addToStatusArea('wireless-hid', this, index, position);
+    }
+
     _onDestroy() {
         this._upowerClient.disconnect(this._deviceAddedSignal);
         this._upowerClient.disconnect(this._deviceRemovedSignal);
 
-        if (this._settingsChangedId) {
-            this._settings.disconnect(this._settingsChangedId);
-            this._settingsChangedId = 0;
-        }
-
         for (let deviceId in this._devices) {
-          this._devices[deviceId].destroy();
+            this._devices[deviceId].destroy();
         }
 
         super._onDestroy();
-    }
-
-    _resetPanelPos() {
-        this.container.get_parent().remove_child(this.container);
-
-        // Small HACK with private boxes :)
-        let boxes = {
-            left: Main.panel._leftBox,
-            center: Main.panel._centerBox,
-            right: Main.panel._rightBox
-        };
-
-        let p = this._menuPosition;
-        let i = this._menuBoxIndex;
-        boxes[p].insert_child_at_index(this.container, i);
-    }
-
-    _getPrefs() {
-        // Get stored settings
-        this._menuPosition = this._settings.get_string('position-in-panel').toLowerCase();
-        this._menuBoxIndex = this._settings.get_int('panel-box-index');
     }
 });

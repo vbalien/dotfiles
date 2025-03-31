@@ -2,6 +2,6 @@
 	email = webmaster@alien.moe
 	name = Jisu Kim
 [core]
-	autocrlf = true
+	autocrlf = false
 [push]
 	autoSetupRemote = true

@@ -2,7 +2,7 @@
  * Extension
  *
  * @author     Javad Rahmatzadeh <j.rahmatzadeh@gmail.com>
- * @copyright  2020-2024
+ * @copyright  2020-2025
  * @license    GPL-3.0-only
  */
 
@@ -21,6 +21,8 @@ import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import * as OSDWindow from 'resource:///org/gnome/shell/ui/osdWindow.js';
 import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js';
 import * as Panel from 'resource:///org/gnome/shell/ui/panel.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as Search from 'resource:///org/gnome/shell/ui/search.js';
 import * as SearchController from 'resource:///org/gnome/shell/ui/searchController.js';
 import * as SwitcherPopup from 'resource:///org/gnome/shell/ui/switcherPopup.js';
 import * as WindowMenu from 'resource:///org/gnome/shell/ui/windowMenu.js';
@@ -37,6 +39,7 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 import {API} from './lib/API.js';
 import {Manager} from './lib/Manager.js';
+import {SupportNotifier} from './lib/SupportNotifier.js';
 
 /**
  * Extension entry point
@@ -48,14 +51,21 @@ export default class JustPerfection extends Extension
      *
      * @type {API|null}
      */
-     #api = null;
+    #api = null;
 
     /**
      * Instance of Manager
      *
      * @type {Manager|null}
      */
-     #manager = null;
+    #manager = null;
+
+    /**
+     * Instance of SupportNotifier
+     *
+     * @type {SupportNotifier|null}
+     */
+    #supportNotifier = null;
 
     /**
      * Enable extension
@@ -65,6 +75,7 @@ export default class JustPerfection extends Extension
     enable()
     {
         const shellVersion = parseFloat(Config.PACKAGE_VERSION);
+        const extensionVersion = parseInt(this.metadata.version);
 
         let InterfaceSettings = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
 
@@ -76,10 +87,12 @@ export default class JustPerfection extends Extension
                 WorkspaceSwitcherPopup,
                 SwitcherPopup,
                 InterfaceSettings,
+                Search,
                 SearchController,
                 WorkspaceThumbnail,
                 WorkspacesView,
                 Panel,
+                PanelMenu,
                 WindowPreview,
                 Workspace,
                 LookingGlass,
@@ -111,6 +124,20 @@ export default class JustPerfection extends Extension
 
         this.#manager.registerSettingsSignals();
         this.#manager.applyAll();
+
+        this.#supportNotifier = new SupportNotifier(
+            {
+                MessageTray,
+                Main,
+                Gio,
+                Settings: settings,
+            },
+            shellVersion,
+            extensionVersion,
+            this
+        );
+
+        this.#supportNotifier.start();
     }
 
     /**
@@ -125,6 +152,9 @@ export default class JustPerfection extends Extension
 
         this.#api?.close();
         this.#api = null;
+
+        this.#supportNotifier?.stop();
+        this.#supportNotifier = null;
     }
 }
 

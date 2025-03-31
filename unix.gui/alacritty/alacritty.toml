@@ -1,4 +1,3 @@
-import = ["~/.config/alacritty/catppuccin-mocha.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -20,3 +19,6 @@ bindings = [
   { mods = "Control", key = "Period", chars = " ca" },
   { mods = "Command|Shift", key = "A", chars = "\\\u001B[65;1u" },
 ]
+
+[general]
+import = ["~/.config/alacritty/catppuccin-mocha.toml"]

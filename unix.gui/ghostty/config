@@ -1,0 +1,29 @@
+# Cursor
+shell-integration-features = no-cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Font
+font-family = Terminess Nerd Font
+font-family = AppleGothic
+font-size = 15
+
+# Theme
+theme = Catppuccin Mocha
+
+# Window
+macos-titlebar-style = hidden
+window-width = 80
+window-height = 26
+
+# Environment
+env = TERM=xterm-256color
+
+# Keybindings
+keybind = super+p=text:\x5cp
+keybind = super+o=text:\x5co
+keybind = super+f=text:\x5cf
+keybind = super+period=text: ca
+keybind = ctrl+period=text: ca
+keybind = super+shift+f=text:\x5cff
+keybind = super+shift+a=text:\x1b[65;1u

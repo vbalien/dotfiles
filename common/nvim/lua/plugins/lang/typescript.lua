@@ -1,18 +1,9 @@
 return {
 	{
-		"nvim-treesitter/nvim-treesitter",
-		opts = function(_, opts)
-			if type(opts.ensure_installed) == "table" then
-				vim.list_extend(opts.ensure_installed, { "tsx", "typescript" })
-			end
-		end,
-	},
-
-	{
 		"williamboman/mason.nvim",
 		opts = function(_, opts)
-			table.insert(opts.ensure_installed, "typescript-language-server")
-			-- table.insert(opts.ensure_installed, "deno")
+			opts.ensure_installed = opts.ensure_installed or {}
+			vim.list_extend(opts.ensure_installed, { "typescript-language-server", "eslint-lsp", "eslint_d" })
 		end,
 	},
 
@@ -23,29 +14,24 @@ return {
 				ts_ls = {
 					single_file_support = false,
 				},
-				-- denols = {},
+				eslint = {
+					settings = {
+						workingDirectories = { mode = "auto" },
+					},
+				},
 			},
-		},
-		setup = {
-			ts_ls = function(_, opts)
-				local nvim_lsp = require("nvim_lsp")
-				opts.root_dir = nvim_lsp.util.root_pattern("package.json")
-				return false
-			end,
-
-			-- denols = function(_, opts)
-			-- 	local nvim_lsp = require("nvim_lsp")
-			-- 	opts.denols.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc")
-			-- 	return false
-			-- end,
 		},
 	},
 
+	-- ESLint fix + Prettier via conform
 	{
-		"lukas-reineke/lsp-format.nvim",
+		"stevearc/conform.nvim",
 		opts = {
-			typescript = {
-				exclude = { "ts_ls" },
+			formatters_by_ft = {
+				javascript = { "eslint_d", "prettierd", stop_after_first = false },
+				typescript = { "eslint_d", "prettierd", stop_after_first = false },
+				javascriptreact = { "eslint_d", "prettierd", stop_after_first = false },
+				typescriptreact = { "eslint_d", "prettierd", stop_after_first = false },
 			},
 		},
 	},

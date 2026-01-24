@@ -2,7 +2,6 @@ local util = require("util")
 local nnoremap = util.nnoremap
 local inoremap = util.inoremap
 local vnoremap = util.vnoremap
-local borderchars = util.borderchars
 
 ----------------
 -- Nvim tree
@@ -37,53 +36,10 @@ else
 end
 
 ----------------
--- Telescope
+-- Code action
 ----------------
-nnoremap("<Leader>p", function() -- find files
-	return require("telescope.builtin").find_files({
-		find_command = { "rg", "--files", "--hidden", "--color", "never" },
-		borderchars = borderchars({}),
-	})
-end, {
-	silent = true,
-})
-nnoremap("<Leader>o", function() -- find files with grep
-	return require("telescope.builtin").live_grep({
-		borderchars = borderchars({}),
-	})
-end, {
-	silent = true,
-})
-nnoremap("<Leader>ff", function() -- find in current buffer
-	return require("telescope.builtin").current_buffer_fuzzy_find({
-		borderchars = borderchars({}),
-	})
-end, {
-	silent = true,
-})
-nnoremap("<Leader><S-a>", function() -- select buffer
-	return require("telescope.builtin").buffers({
-		previewer = false,
-		path_display = { "shorten" },
-		borderchars = borderchars({}),
-	})
-end, {
-	silent = true,
-})
 nnoremap("<Space>ca", function() -- select code action
 	return vim.lsp.buf.code_action({})
-end, {
-	silent = true,
-})
-nnoremap("gd", function() -- go definition
-	return require("telescope.builtin").lsp_definitions({
-		borderchars = borderchars({ right_preview = true }),
-	})
-end, {
-	silent = true,
-})
-nnoremap("<Leader><S-o>", function() -- manage projects
-	return require("telescope").extensions.project.project({})
 end, {
 	silent = true,
 })
@@ -141,3 +97,4 @@ vnoremap("<4-MiddleMouse>", "<Nop>", {
 inoremap("<4-MiddleMouse>", "<Nop>", {
 	silent = true,
 })
+

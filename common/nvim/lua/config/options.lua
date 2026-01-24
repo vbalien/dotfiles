@@ -17,9 +17,28 @@ set.clipboard = "unnamedplus"
 set.mouse = "a"
 set.completeopt = "menu,menuone,noselect"
 set.background = "dark"
+set.updatetime = 250 -- CursorHold 대기 시간 (ms)
 
 set.guifont = "Terminess Nerd Font:h10"
 
-if vim.loop.os_uname().sysname == "Windows_NT" then -- use powershell on windows
+if vim.uv.os_uname().sysname == "Windows_NT" then -- use powershell on windows
 	set.shell = "pwsh.exe -NoLogo"
 end
+
+vim.diagnostic.config({
+	virtual_text = false,
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+	float = {
+		border = "single",
+		source = true,
+	},
+})
+
+-- 커서 멈추면 자동으로 diagnostic float 표시
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		vim.diagnostic.open_float(nil, { focus = false })
+	end,
+})

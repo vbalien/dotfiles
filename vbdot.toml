@@ -10,6 +10,7 @@ bat = ["~/.config/bat", "common/bat"]
 
 ["unix.gui".link]
 alacritty = ["~/.config/alacritty", "unix.gui/alacritty"]
+ghostty = ["~/.config/ghostty", "unix.gui/ghostty"]
 
 [linux.link]
 "gnome-shell.extensions" = [

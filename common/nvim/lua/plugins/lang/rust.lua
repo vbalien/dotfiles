@@ -2,16 +2,8 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = function(_, opts)
-			if type(opts.ensure_installed) == "table" then
-				vim.list_extend(opts.ensure_installed, { "ron", "rust", "toml" })
-			end
-		end,
-	},
-
-	{
-		"williamboman/mason.nvim",
-		opts = function(_, opts)
-			table.insert(opts.ensure_installed, "rust-analyzer")
+			opts.ensure_installed = opts.ensure_installed or {}
+			vim.list_extend(opts.ensure_installed, { "ron", "rust", "toml" })
 		end,
 	},
 
@@ -25,9 +17,12 @@ return {
 							cargo = {
 								allFeatures = true,
 								loadOutDirsFromCheck = true,
-								runBuildScripts = true,
+								buildScripts = {
+									enable = true,
+								},
 							},
-							checkOnSave = {
+							checkOnSave = true,
+							check = {
 								allFeatures = true,
 								command = "clippy",
 								extraArgs = { "--no-deps" },
@@ -43,6 +38,16 @@ return {
 						},
 					},
 				},
+			},
+		},
+	},
+
+	-- conform.nvim for Rust formatting
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			formatters_by_ft = {
+				rust = { "rustfmt", lsp_format = "fallback" },
 			},
 		},
 	},

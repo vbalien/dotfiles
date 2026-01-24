@@ -1,22 +1,5 @@
 return {
 	{
-		"stevearc/dressing.nvim",
-		lazy = true,
-		init = function()
-			---@diagnostic disable-next-line: duplicate-set-field
-			vim.ui.select = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.select(...)
-			end
-			---@diagnostic disable-next-line: duplicate-set-field
-			vim.ui.input = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.input(...)
-			end
-		end,
-	},
-
-	{
 		"dstein64/nvim-scrollview",
 		event = "VeryLazy",
 	},
@@ -39,25 +22,32 @@ return {
 	},
 
 	{
-		"akinsho/bufferline.nvim",
+		"romgrk/barbar.nvim",
 		event = "VeryLazy",
-		keys = {
-			{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
-			{ "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
 		},
+		keys = {
+			{ "<leader>bp", "<Cmd>BufferPin<CR>", desc = "Toggle pin" },
+			{ "<leader>bP", "<Cmd>BufferCloseAllButPinned<CR>", desc = "Delete non-pinned buffers" },
+			{ "<S-h>", "<Cmd>BufferPrevious<CR>", desc = "Prev buffer" },
+			{ "<S-l>", "<Cmd>BufferNext<CR>", desc = "Next buffer" },
+			{ "<leader>bd", "<Cmd>BufferClose<CR>", desc = "Close buffer" },
+		},
+		init = function()
+			vim.g.barbar_auto_setup = false
+		end,
 		opts = {
-			options = {
-				highlights = require("catppuccin.groups.integrations.bufferline").get(),
-				diagnostics = "nvim_lsp",
-				always_show_bufferline = true,
-				offsets = {
-					{
-						filetype = "NvimTree",
-						text = "NvimTree",
-						highlight = "Directory",
-						text_align = "center",
-					},
+			animation = false,
+			auto_hide = false,
+			icons = {
+				diagnostics = {
+					[vim.diagnostic.severity.ERROR] = { enabled = true },
+					[vim.diagnostic.severity.WARN] = { enabled = true },
 				},
+			},
+			sidebar_filetypes = {
+				NvimTree = true,
 			},
 		},
 	},
@@ -65,16 +55,17 @@ return {
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+		},
 		opts = {
 			lsp = {
-				signature = {
-					enabled = false,
-				},
+				signature = { enabled = false },
+				progress = { enabled = false },
 			},
 			presets = {
 				lsp_doc_border = true,
 			},
-
 			views = {
 				cmdline_popup = {
 					border = { style = "single" },
@@ -87,20 +78,5 @@ return {
 				},
 			},
 		},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-		},
-	},
-
-	{
-		"ray-x/lsp_signature.nvim",
-		event = "VeryLazy",
-		opts = {
-			noice = true,
-			-- floating_window = false,
-		},
-		config = function(_, opts)
-			require("lsp_signature").setup(opts)
-		end,
 	},
 }

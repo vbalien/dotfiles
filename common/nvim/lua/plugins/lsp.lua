@@ -1,82 +1,45 @@
 return {
-	-- lspconfig
+	-- Breadcrumbs in winbar (clickable with sibling navigation)
+	{
+		"Bekaboo/dropbar.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			menu = {
+				preview = false,
+			},
+		},
+	},
+
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
-			{ "folke/neodev.nvim", opts = {} },
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"hrsh7th/cmp-nvim-lsp",
-			"lukas-reineke/lsp-format.nvim",
 		},
-		---@class PluginLspOpts
 		opts = {
-			-- add any global capabilities here
 			capabilities = {},
-			-- Automatically format on save
-			autoformat = true,
-			-- Enable this to show formatters used in a notification
-			-- Useful for debugging formatter issues
-			format_notify = false,
-			-- options for vim.lsp.buf.format
-			-- `bufnr` and `filter` is handled by the LazyVim formatter,
-			-- but can be also overridden when specified
-			format = {
-				formatting_options = nil,
-				timeout_ms = nil,
-			},
-			-- LSP Server Settings
-			servers = {
-				jsonls = {},
-			},
-			-- you can do any additional lsp server setup here
-			-- return true if you don't want this server to be setup with lspconfig
-			setup = {
-				-- example to setup with typescript.nvim
-				-- tsserver = function(_, opts)
-				--   require("typescript").setup({ server = opts })
-				--   return true
-				-- end,
-				-- Specify * to use this function as a fallback for any server
-				-- ["*"] = function(server, opts) end,
-			},
+			servers = { jsonls = {} },
+			setup = {},
 		},
-		---@param opts PluginLspOpts
 		config = function(_, opts)
-			-- vim.lsp.handlers["textDocument/publishDiagnostics"] =
-			-- 	vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-			-- 		severity_sort = true,
-			-- 		underline = {
-			-- 			severity_limit = "Information",
-			-- 		},
-			-- 		signs = {
-			-- 			severity_limit = "Information",
-			-- 		},
-			-- 		virtual_text = {
-			-- 			severity_limit = "Warning",
-			-- 		},
-			-- 	})
+			-- Suppress stylua LSP (stylua 2.x removed --lsp flag)
+			vim.lsp.config.stylua = { cmd = { "true" }, filetypes = {} }
 
-			local servers = opts.servers
-			local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+			local has_blink, blink = pcall(require, "blink.cmp")
 			local capabilities = vim.tbl_deep_extend(
 				"force",
 				{},
 				vim.lsp.protocol.make_client_capabilities(),
-				has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+				has_blink and blink.get_lsp_capabilities() or {},
 				opts.capabilities or {}
 			)
-			local on_attach = function(client)
-				require("lsp-format").on_attach(client)
-			end
 
 			local function setup(server)
 				local server_opts = vim.tbl_deep_extend("force", {
 					capabilities = vim.deepcopy(capabilities),
-					on_attach = vim.deepcopy(on_attach),
-				}, servers[server] or {})
+				}, opts.servers[server] or {})
 
 				if opts.setup[server] then
 					if opts.setup[server](server, server_opts) then
@@ -90,63 +53,31 @@ return {
 				require("lspconfig")[server].setup(server_opts)
 			end
 
-			-- get all the servers that are available thourgh mason-lspconfig
 			local have_mason, mlsp = pcall(require, "mason-lspconfig")
-			local all_mslp_servers = {}
 			if have_mason then
-				all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+				mlsp.setup({
+					ensure_installed = vim.tbl_keys(opts.servers),
+					automatic_installation = false,
+					handlers = { function(server_name) setup(server_name) end },
+				})
 			end
 
-			local ensure_installed = {} ---@type string[]
-			for server, server_opts in pairs(servers) do
-				if server_opts then
-					server_opts = server_opts == true and {} or server_opts
-					-- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-					if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-						setup(server)
-					else
-						ensure_installed[#ensure_installed + 1] = server
-					end
+			for server, server_opts in pairs(opts.servers) do
+				if server_opts and server_opts.mason == false then
+					setup(server)
 				end
 			end
-
-			if have_mason then
-				mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
-			end
 		end,
 	},
 
-	-- formatters
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = { "mason.nvim" },
-		opts = function()
-			local nls = require("null-ls")
-			local on_attach = require("lsp-format").on_attach
-			return {
-				on_attach = on_attach,
-				root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
-				sources = {
-					nls.builtins.formatting.shfmt,
-				},
-			}
-		end,
-	},
-
-	-- cmdline tools and lsp servers
 	{
 		"williamboman/mason.nvim",
 		cmd = "Mason",
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 		build = ":MasonUpdate",
 		opts = {
-			ensure_installed = {
-				"stylua",
-				"shfmt",
-			},
+			ensure_installed = { "stylua", "shfmt" },
 		},
-		---@param opts MasonSettings | {ensure_installed: string[]}
 		config = function(_, opts)
 			require("mason").setup(opts)
 			local mr = require("mason-registry")

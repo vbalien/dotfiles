@@ -71,5 +71,8 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export PATH=$PATH:/home/elnyan/.spicetify
 export PATH="$PATH:$HOME/.local/bin"
 
+# GPG
+export GPG_TTY=$(tty)
+
 # screen fetch
 pfetch

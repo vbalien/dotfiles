@@ -4,35 +4,22 @@ return {
 		event = { "BufReadPost", "BufNewFile" },
 		opts = {},
 	},
+
 	{
 		"NvChad/nvim-colorizer.lua",
 		event = { "BufReadPost", "BufNewFile" },
 		opts = {
-			file = {
+			filetypes = {
 				"*",
-				-- Excluded filteypes.
-				"!lazy", -- Commit hashes get highlighted sometimes.
+				"!lazy",
+			},
+			user_default_options = {
+				names = false,
+				mode = "background",
 			},
 		},
 	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = { "BufReadPost", "BufNewFile" },
-		main = "ibl",
-		opts = {},
-	},
-	-- {
-	-- 	"lukas-reineke/indent-blankline.nvim",
-	-- 	event = { "BufReadPost", "BufNewFile" },
-	-- 	config = function()
-	-- 		vim.opt.list = true
-	-- 		require("indent_blankline").setup({
-	-- 			space_char_blankline = " ",
-	-- 			show_current_context = true,
-	-- 			show_current_context_start = true,
-	-- 		})
-	-- 	end,
-	-- },
+
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
@@ -41,8 +28,8 @@ return {
 			signs = {
 				add = { text = "▎" },
 				change = { text = "▎" },
-				delete = { text = "" },
-				topdelete = { text = "" },
+				delete = { text = "" },
+				topdelete = { text = "" },
 				changedelete = { text = "▎" },
 				untracked = { text = "▎" },
 			},
@@ -69,96 +56,81 @@ return {
 			end,
 		},
 	},
+
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
-		opts = {}, -- this is equalent to setup({}) function
+		opts = {},
 	},
+
+	-- ts-context-commentstring (must load before Comment.nvim)
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		lazy = true,
+		opts = {
+			enable_autocmd = false,
+		},
+	},
+
 	{
 		"numToStr/Comment.nvim",
-		lazy = false,
-		dependencies = {
-			"JoosepAlviste/nvim-ts-context-commentstring",
-		},
-		config = function()
-			---@diagnostic disable-next-line: missing-fields
-			require("Comment").setup({
+		event = "VeryLazy",
+		opts = function()
+			return {
 				ignore = "^$",
-
-				pre_hook = function(ctx)
-					if vim.bo.filetype == "typescriptreact" then
-						local U = require("Comment.utils")
-						local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
-						local location = nil
-
-						if ctx.ctype == U.ctype.block then
-							location = require("ts_context_commentstring.utils").get_cursor_location()
-						elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-							location = require("ts_context_commentstring.utils").get_visual_start_location()
-						end
-
-						return require("ts_context_commentstring.internal").calculate_commentstring({
-							key = type,
-							location = location,
-						})
-					end
-				end,
-			})
+				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+			}
 		end,
-	},
-
-	{
-		"RRethy/vim-illuminate",
-		event = { "BufReadPost", "BufNewFile" },
-		opts = {
-			delay = 200,
-			large_file_cutoff = 2000,
-			large_file_overrides = {
-				providers = { "lsp" },
-			},
-		},
-		config = function(_, opts)
-			require("illuminate").configure(opts)
-
-			local function map(key, dir, buffer)
-				vim.keymap.set("n", key, function()
-					require("illuminate")["goto_" .. dir .. "_reference"](false)
-				end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-			end
-
-			map("]]", "next")
-			map("[[", "prev")
-
-			-- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-			vim.api.nvim_create_autocmd("FileType", {
-				callback = function()
-					local buffer = vim.api.nvim_get_current_buf()
-					map("]]", "next", buffer)
-					map("[[", "prev", buffer)
-				end,
-			})
-		end,
-		keys = {
-			{ "]]", desc = "Next Reference" },
-			{ "[[", desc = "Prev Reference" },
-		},
 	},
 
 	{
 		"folke/trouble.nvim",
+		cmd = { "Trouble" },
+		keys = {
+			{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+			{ "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
+			{ "<leader>cs", "<cmd>Trouble symbols toggle<cr>", desc = "Symbols (Trouble)" },
+			{ "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
+			{ "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
+		},
+		opts = {},
+	},
+
+	-- Flash.nvim for quick navigation
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		opts = {},
+		keys = {
+			{ "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+			{ "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+			{ "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+		},
+	},
+
+	-- Git diff viewer
+	{
+		"sindrets/diffview.nvim",
+		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+		keys = {
+			{ "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
+			{ "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History" },
+			{ "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Branch History" },
+		},
+		opts = {},
+	},
+
+	-- Todo comments
+	{
+		"folke/todo-comments.nvim",
 		event = { "BufReadPost", "BufNewFile" },
-		cmd = { "TroubleToggle", "Trouble" },
-		opts = {
-			auto_close = true,
-			auto_fold = true,
-			height = 8,
-			action_keys = {
-				jump_close = {},
-				toggle_fold = { "o" },
-			},
-			modes = {
-				diagnostics = { auto_open = true },
-			},
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
+		keys = {
+			{ "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
+			{ "[t", function() require("todo-comments").jump_prev() end, desc = "Previous Todo Comment" },
+			{ "<leader>st", "<cmd>Trouble todo<cr>", desc = "Todo (Trouble)" },
 		},
 	},
 }

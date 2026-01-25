@@ -85,7 +85,7 @@ export PATH="$PATH:$HOME/.local/bin"
 
 # GPG
 export GPG_TTY=$(tty)
-=======
+
 # android
 export ANDROID_SDK_ROOT=$HOME/Android/Sdk
 export ANDROID_NDK_ROOT=$HOME/Android/Sdk/ndk/27.1.12297006

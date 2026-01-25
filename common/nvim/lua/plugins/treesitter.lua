@@ -33,10 +33,7 @@ return {
 				"yaml",
 			}
 
-			ts.setup()
-			vim.schedule(function()
-				ts.install(languages)
-			end)
+			ts.setup({ ensure_installed = languages })
 
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = languages,

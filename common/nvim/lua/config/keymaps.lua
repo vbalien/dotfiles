@@ -2,6 +2,15 @@ local util = require("util")
 local nnoremap = util.nnoremap
 local inoremap = util.inoremap
 local vnoremap = util.vnoremap
+local tnoremap = util.tnoremap
+
+----------------
+-- Terminal window navigation
+----------------
+tnoremap("<C-w>h", "<C-\\><C-n><C-w>h", { silent = true })
+tnoremap("<C-w>j", "<C-\\><C-n><C-w>j", { silent = true })
+tnoremap("<C-w>k", "<C-\\><C-n><C-w>k", { silent = true })
+tnoremap("<C-w>l", "<C-\\><C-n><C-w>l", { silent = true })
 
 ----------------
 -- Nvim tree

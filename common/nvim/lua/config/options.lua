@@ -14,6 +14,21 @@ set.hlsearch = true
 set.cursorline = true
 set.termguicolors = true
 set.clipboard = "unnamedplus"
+
+-- SSH 환경에서 OSC 52 사용
+if vim.env.SSH_TTY then
+	vim.g.clipboard = {
+		name = "OSC 52",
+		copy = {
+			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+		},
+		paste = {
+			["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+			["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+		},
+	}
+end
 set.mouse = "a"
 set.completeopt = "menu,menuone,noselect"
 set.background = "dark"

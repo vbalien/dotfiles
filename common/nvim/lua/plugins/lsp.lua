@@ -25,7 +25,7 @@ return {
 		},
 		config = function(_, opts)
 			-- Suppress stylua LSP (stylua 2.x removed --lsp flag)
-			vim.lsp.config.stylua = { cmd = { "true" }, filetypes = {} }
+			vim.lsp.config("stylua", { cmd = { "true" }, filetypes = {} })
 
 			local has_blink, blink = pcall(require, "blink.cmp")
 			local capabilities = vim.tbl_deep_extend(
@@ -50,7 +50,9 @@ return {
 						return
 					end
 				end
-				require("lspconfig")[server].setup(server_opts)
+				-- Use new vim.lsp API (Neovim 0.11+)
+				vim.lsp.config(server, server_opts)
+				vim.lsp.enable(server)
 			end
 
 			local have_mason, mlsp = pcall(require, "mason-lspconfig")
@@ -58,8 +60,11 @@ return {
 				mlsp.setup({
 					ensure_installed = vim.tbl_keys(opts.servers),
 					automatic_installation = false,
-					handlers = { function(server_name) setup(server_name) end },
 				})
+				-- Setup servers after mason-lspconfig is ready
+				for _, server in ipairs(mlsp.get_installed_servers()) do
+					setup(server)
+				end
 			end
 
 			for server, server_opts in pairs(opts.servers) do

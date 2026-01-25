@@ -6,7 +6,9 @@ return {
 		priority = 1000,
 		opts = {
 			flavour = "mocha",
+			default_integrations = true,
 			integrations = {
+				barbar = true,
 				blink_cmp = true,
 				gitsigns = true,
 				nvimtree = true,

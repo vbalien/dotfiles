@@ -33,6 +33,14 @@ return {
 				changedelete = { text = "▎" },
 				untracked = { text = "▎" },
 			},
+			signs_staged_enable = true,
+			signs_staged = {
+				add = { text = "┃" },
+				change = { text = "┃" },
+				delete = { text = "" },
+				topdelete = { text = "" },
+				changedelete = { text = "┃" },
+			},
 			on_attach = function(buffer)
 				local gs = package.loaded.gitsigns
 

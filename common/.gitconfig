@@ -5,3 +5,8 @@
 	autocrlf = false
 [push]
 	autoSetupRemote = true
+	signingkey = FD987F8DBE513071
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true

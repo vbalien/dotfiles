@@ -3,7 +3,18 @@ return {
 		"coder/claudecode.nvim",
 		dependencies = { "folke/snacks.nvim" },
 		lazy = false,
-		config = true,
+		opts = {
+			auto_start = true,
+			terminal = {
+				split_side = "right",
+				split_width_percentage = 0.30,
+				provider = "snacks",
+			},
+			diff_opts = {
+				auto_close_on_accept = true,
+				vertical_split = true,
+			},
+		},
 		keys = {
 			{ "<leader>a", nil, desc = "AI/Claude Code" },
 			{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },

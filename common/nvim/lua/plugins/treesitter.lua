@@ -3,11 +3,10 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		version = false,
 		build = ":TSUpdate",
-		lazy = false, -- treesitter doesn't support lazy loading
-		opts = {
-			highlight = { enable = true },
-			indent = { enable = true },
-			ensure_installed = {
+		lazy = false,
+		config = function()
+			local ts = require("nvim-treesitter")
+			local languages = {
 				"bash",
 				"c",
 				"diff",
@@ -32,20 +31,20 @@ return {
 				"vimdoc",
 				"xml",
 				"yaml",
-			},
-		},
-		config = function(_, opts)
-			if type(opts.ensure_installed) == "table" then
-				local added = {}
-				opts.ensure_installed = vim.tbl_filter(function(lang)
-					if added[lang] then
-						return false
-					end
-					added[lang] = true
-					return true
-				end, opts.ensure_installed)
-			end
-			require("nvim-treesitter.configs").setup(opts)
+			}
+
+			ts.setup()
+			vim.schedule(function()
+				ts.install(languages)
+			end)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = languages,
+				callback = function()
+					pcall(vim.treesitter.start)
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
 		end,
 	},
 

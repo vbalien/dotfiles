@@ -1,0 +1,102 @@
+[
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 46}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + c",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 47}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + v",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 45}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + x",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 30}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + a",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 44}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + z",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 31}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + s",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 17}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + w",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 20}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + t",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 33}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + f",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 49}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + n",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {"type": 1, "code": 125},
+            {"type": 1, "code": 42},
+            {"type": 1, "code": 44}
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "Control_L + Shift_L + z",
+        "mapping_type": "key_macro"
+    }
+]

@@ -1,0 +1,7 @@
+{
+    "version": "2.2.0",
+    "autoload": {
+        "Lenovo TrackPoint Keyboard II": "no-middle-paste",
+        "Lenovo TrackPoint Keyboard II Keyboard": "mac-style"
+    }
+}

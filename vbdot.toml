@@ -19,6 +19,7 @@ ghostty = ["~/.config/ghostty", "unix.gui/ghostty"]
 ]
 fonts = ["~/.local/share/fonts", "linux/fonts"]
 themes = ["~/.themes", "linux/.themes"]
+input-remapper = ["~/.config/input-remapper-2", "linux/input-remapper-2"]
 
 [windows.link]
 nvim = ['~/AppData/Local/nvim', "common/nvim"]

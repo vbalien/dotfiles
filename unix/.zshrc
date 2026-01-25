@@ -1,12 +1,23 @@
 # zsh options
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE=~/.zsh_history
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
 setopt interactivecomments
 
 # Completion
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' menu select
+
+# Carapace
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+zstyle ':completion:*:git:*' group-order 'main commands' 'alias commands' 'external commands'
+source <(carapace _carapace)
 
 # Load plugins
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -45,6 +56,7 @@ HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 
 # Alias
 alias vim=nvim
+alias claude='claude --dangerously-skip-permissions'
 
 if [[ "$OSTYPE" == "linux"* ]]; then
   alias open=xdg-open
@@ -73,6 +85,14 @@ export PATH="$PATH:$HOME/.local/bin"
 
 # GPG
 export GPG_TTY=$(tty)
+=======
+# android
+export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+export ANDROID_NDK_ROOT=$HOME/Android/Sdk/ndk/27.1.12297006
+export ANDROID_NDK_HOME=$HOME/Android/Sdk/ndk/27.1.12297006
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # screen fetch
 pfetch

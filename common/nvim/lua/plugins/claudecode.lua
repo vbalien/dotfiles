@@ -5,6 +5,8 @@ return {
 		lazy = false,
 		opts = {
 			auto_start = true,
+			focus_after_send = true,
+			terminal_cmd = "claude --dangerously-skip-permissions",
 			terminal = {
 				split_side = "right",
 				split_width_percentage = 0.30,

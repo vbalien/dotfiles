@@ -141,4 +141,9 @@ return {
 			{ "<leader>st", "<cmd>Trouble todo<cr>", desc = "Todo (Trouble)" },
 		},
 	},
+
+	{
+		"simnalamburt/vim-tiny-ime",
+		cond = vim.fn.has("macunix") == 1,
+	},
 }

@@ -1,3 +1,5 @@
+auto-update-channel = tip
+
 # Cursor
 shell-integration-features = no-cursor
 cursor-style = block
@@ -5,8 +7,10 @@ cursor-style-blink = false
 
 # Font
 font-family = Terminess Nerd Font
-font-family = AppleGothic
-font-size = 13
+font-family = "Noto Sans CJK KR"
+font-family = "Apple SD Gothic Neo"
+font-size = 15
+alpha-blending = linear
 
 # Theme
 theme = Catppuccin Mocha
@@ -24,5 +28,5 @@ keybind = super+p=text:\x20p
 keybind = super+o=text:\x20o
 keybind = super+f=text:\x20f
 keybind = super+period=text:\x20ca
-keybind = super+shift+f=text:\x20ff
+keybind = super+shift+f=toggle_fullscreen
 keybind = super+shift+a=text:\x1b[65;1u

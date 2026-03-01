@@ -20,9 +20,6 @@ macos-titlebar-style = hidden
 window-width = 80
 window-height = 26
 
-# Environment
-env = TERM=xterm-256color
-
 # Keybindings
 keybind = super+p=text:\x20p
 keybind = super+o=text:\x20o

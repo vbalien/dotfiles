@@ -90,6 +90,9 @@ export PATH="$PATH:$HOME/.local/bin"
 # GPG
 export GPG_TTY=$(tty)
 
+# java
+export JAVA_HOME=/usr/lib/jvm/java-17-temurin-jdk
+
 # android
 export ANDROID_SDK_ROOT=$HOME/Android/Sdk
 export ANDROID_NDK_ROOT=$HOME/Android/Sdk/ndk/27.1.12297006
@@ -100,3 +103,4 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # screen fetch
 pfetch
+export PATH="$HOME/.local/bin:$PATH"

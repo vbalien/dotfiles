@@ -67,3 +67,58 @@ format = '[ $symbol $branch ]($style)'
 [git_status]
 style = "fg:crust bg:maroon"
 format = '[ $all_status$ahead_behind ]($style)'
+
+# --- Claude Code statusline (starship statusline claude-code) ---
+[profiles]
+claude-code = "$claude_model$directory$git_branch$claude_context$claude_cost\n${custom.las_working}${custom.las_rest}${custom.las_off}${custom.las_time}"
+
+[claude_model]
+format = '[ $symbol$model ]($style)'
+symbol = '✳ '
+style = 'fg:crust bg:blue'
+
+[claude_context]
+format = '[ ]($style)[$gauge]($style inverted)[ $percentage ]($style)'
+gauge_width = 5
+display = [
+  { threshold = 0.0, style = 'fg:crust bg:green' },
+  { threshold = 60.0, style = 'fg:crust bg:yellow' },
+  { threshold = 80.0, style = 'fg:crust bg:red' },
+]
+
+[claude_cost]
+format = '[ \$$cost ]($style)'
+display = [
+  { threshold = 0.0, style = 'fg:crust bg:teal' },
+  { threshold = 5.0, style = 'fg:crust bg:flamingo' },
+  { threshold = 20.0, style = 'fg:crust bg:maroon' },
+]
+
+# LAS 근태 (스크립트/토큰은 ~/.config/las/ 로컬 전용 — 토큰을 이 저장소에 넣지 말 것)
+[custom.las_working]
+command = '~/.config/las/statusline.sh status'
+when = '~/.config/las/statusline.sh when working'
+style = 'fg:crust bg:green'
+format = '[ $output ]($style)'
+shell = ['bash', '--noprofile', '--norc']
+
+[custom.las_rest]
+command = '~/.config/las/statusline.sh status'
+when = '~/.config/las/statusline.sh when rest'
+style = 'fg:crust bg:yellow'
+format = '[ $output ]($style)'
+shell = ['bash', '--noprofile', '--norc']
+
+[custom.las_off]
+command = '~/.config/las/statusline.sh status'
+when = '~/.config/las/statusline.sh when off'
+style = 'fg:crust bg:overlay1'
+format = '[ $output ]($style)'
+shell = ['bash', '--noprofile', '--norc']
+
+[custom.las_time]
+command = '~/.config/las/statusline.sh time'
+when = '~/.config/las/statusline.sh when time'
+style = 'fg:crust bg:sapphire'
+format = '[ $output ]($style)'
+shell = ['bash', '--noprofile', '--norc']

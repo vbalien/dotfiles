@@ -5,6 +5,7 @@
 [unix.link]
 nvim = ['~/.config/nvim', "common/nvim"]
 ".zshrc" = ["~/.zshrc", "unix/.zshrc"]
+las = ["~/.config/las/statusline.sh", "unix/las/statusline.sh"]
 tmux = ["~/.config/tmux/tmux.conf", "unix/tmux/tmux.conf"]
 bat = ["~/.config/bat", "common/bat"]
 
